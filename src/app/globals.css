@@ -1,1 +1,63 @@
 @import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --color-mint-50: #ECFDF5;
+  --color-mint-100: #D1FAE5;
+  --color-mint-200: #A7F3D0;
+  --color-mint-300: #6EE7B7;
+  --color-mint-400: #34D399;
+  --color-mint-500: #10B981;
+  --color-mint-600: #059669;
+  --color-mint-700: #047857;
+  --color-mint-800: #065F46;
+  --color-mint-900: #064E3B;
+
+  --color-coral-50: #FFF7ED;
+  --color-coral-100: #FFEDD5;
+  --color-coral-200: #FED7AA;
+  --color-coral-300: #FDBA74;
+  --color-coral-400: #FB923C;
+  --color-coral-500: #F97316;
+  --color-coral-600: #EA580C;
+  --color-coral-700: #C2410C;
+  --color-coral-800: #9A3412;
+  --color-coral-900: #7C2D12;
+
+  --color-surface: #1C1C1E;
+  --color-surface-hover: #252527;
+  --color-surface-elevated: #2C2C2E;
+  --color-border: #38383A;
+  --color-border-focus: #10B981;
+}
+
+@layer components {
+  .wd-card-default {
+    @apply w-full rounded-xl border border-border bg-surface p-4 text-left transition-all duration-150 hover:cursor-pointer hover:border-gray-600 hover:bg-surface-hover;
+  }
+
+  .wd-card-selected {
+    @apply w-full rounded-xl border border-mint-500 bg-mint-500/10 p-4 text-left transition-all duration-150;
+  }
+
+  .wd-card-accessory {
+    @apply rounded-xl border border-border bg-surface p-3 text-center transition-all duration-150 hover:cursor-pointer hover:border-gray-600 hover:bg-surface-hover;
+  }
+
+  .wd-card-accessory--selected {
+    @apply rounded-xl border border-mint-500 bg-mint-500/10 p-3 text-center transition-all duration-150;
+  }
+
+  .wd-btn-primary {
+    @apply w-full rounded-full bg-mint-500 px-6 py-3 text-sm font-medium text-white transition-all duration-150 hover:bg-mint-600 active:scale-[0.98];
+  }
+
+  .wd-section-heading {
+    @apply mb-3 text-lg font-semibold text-gray-100;
+  }
+
+  .wd-price-text {
+    @apply text-sm text-gray-400;
+  }
+}

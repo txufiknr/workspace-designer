@@ -13,7 +13,8 @@ type Action =
   | { type: 'SELECT_DESK'; id: string }
   | { type: 'SELECT_CHAIR'; id: string }
   | { type: 'TOGGLE_ACCESSORY'; id: string }
-  | { type: 'RESET' };
+  | { type: 'RESET' }
+  | { type: 'LOAD_PRESET'; config: WorkspaceConfig };
 
 const INITIAL_CONFIG: WorkspaceConfig = {
   desk: null,
@@ -36,6 +37,8 @@ function reducer(state: WorkspaceConfig, action: Action): WorkspaceConfig {
           : [...state.accessories, action.id],
       };
     }
+    case 'LOAD_PRESET':
+      return action.config;
     case 'RESET':
       return INITIAL_CONFIG;
     default:

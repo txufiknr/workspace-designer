@@ -1,32 +1,62 @@
 'use client';
 
+import { useState, useMemo } from 'react';
 import { useWorkspace } from '@/context/workspace-context';
-import { DEFAULT_RENTAL_PERIOD } from '@/lib/constants';
+import { getProduct } from '@/lib/products';
+import { DEFAULT_RENTAL_PERIOD, MULTIPLIERS } from '@/lib/constants';
 import { rentWorkspace } from '@/lib/actions';
+import ConfirmationModal from './ConfirmationModal';
 
 export default function RentButton() {
-  const { config, dispatch } = useWorkspace();
+  const { config } = useWorkspace();
+  const [showModal, setShowModal] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const selectedIds = [
+    config.desk,
+    config.chair,
+    ...config.accessories,
+  ].filter((id): id is string => id != null);
+
+  const total = useMemo(
+    () =>
+      selectedIds.reduce(
+        (sum, id) => sum + (getProduct(id)?.price ?? 0) * MULTIPLIERS[DEFAULT_RENTAL_PERIOD],
+        0,
+      ),
+    [selectedIds],
+  );
 
   async function handleRent() {
-    const result = await rentWorkspace({
+    setSubmitted(true);
+    await rentWorkspace({
       desk: config.desk,
       chair: config.chair,
       accessories: config.accessories,
-      total: 0,
+      total,
       period: DEFAULT_RENTAL_PERIOD,
     });
-
-    if (result.success) {
-      alert('Workspace rented successfully! (mock)');
-    }
+    setShowModal(true);
+    setSubmitted(false);
   }
 
   return (
-    <button
-      onClick={handleRent}
-      className="w-full rounded-full bg-white px-6 py-3 font-medium text-gray-900 transition-colors hover:bg-gray-200"
-    >
-      Rent This Setup
-    </button>
+    <>
+      <button
+        onClick={handleRent}
+        disabled={submitted}
+        className="wd-btn-primary disabled:opacity-50"
+      >
+        {submitted ? 'Submitting...' : 'Rent This Setup'}
+      </button>
+
+      <ConfirmationModal
+        config={config}
+        total={total}
+        period={DEFAULT_RENTAL_PERIOD}
+        open={showModal}
+        onClose={() => setShowModal(false)}
+      />
+    </>
   );
 }
