@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo, useRef, useEffect } from 'react';
+import Image from 'next/image';
 import { Search, ChevronLeft, ChevronRight, ChevronDown, ChevronRight as ChevronRightIcon, X as CloseIcon } from 'lucide-react';
 import { useWorkspace } from '@/context/workspace-context';
 import { PRODUCTS_BY_CATEGORY } from '@/lib/products';
@@ -104,8 +105,8 @@ export default function ProductPalette({
               </div>
             ) : (
               <div className="flex w-full items-center justify-between">
-                <h1 className="text-sm font-bold text-gray-100 whitespace-nowrap">
-                  Workspace Designer
+                <h1 className="flex items-center">
+                  <Image src="/monisrent-white.png" alt="Monis Rent" width={120} height={32} className="h-6 w-auto" />
                 </h1>
                 <div className="flex items-center gap-0.5">
                   <IconButton

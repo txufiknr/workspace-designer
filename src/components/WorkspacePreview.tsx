@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useDroppable, useDndContext } from '@dnd-kit/core';
 import { SortableContext, useSortable, rectSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -8,6 +9,7 @@ import { useWorkspace } from '@/context/workspace-context';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import { getProduct } from '@/lib/products';
+import { BACKGROUND_THEMES } from '@/lib/backgrounds';
 import { IconButton } from './ui';
 
 function SortableAccessory({
@@ -80,6 +82,7 @@ export default function WorkspacePreview() {
   const { config, dispatch } = useWorkspace();
   const { setNodeRef: setSectionRef, isOver } = useDroppable({ id: 'preview-drop' });
   const { active } = useDndContext();
+  const [themeId, setThemeId] = useState(BACKGROUND_THEMES[0]?.id ?? 'classic');
 
   const draggingFromSidebar =
     isOver && active != null && String(active.id).startsWith('accessory-');
@@ -90,13 +93,32 @@ export default function WorkspacePreview() {
 
   const sortableIds = config.accessories.map((id) => `preview-${id}`);
 
+  const theme =
+    BACKGROUND_THEMES.find((t) => t.id === themeId) ?? BACKGROUND_THEMES[0];
+
   return (
     <section
       ref={setSectionRef}
-      className={`relative flex-1 rounded-2xl border bg-gradient-to-br from-gray-950 via-gray-950 to-surface p-6 transition-colors ${
-        isOver ? 'border-mint-500/70' : 'border-border'
-      }`}
+      className={`relative flex-1 rounded-2xl border p-6 transition-colors ${
+        theme?.gradient ?? ''
+      } ${isOver ? 'border-mint-500/70' : 'border-border'}`}
     >
+      {/* Background theme switcher */}
+      <div className="absolute right-4 top-4 z-10 flex items-center gap-1.5 rounded-full border border-border bg-surface/80 p-1 backdrop-blur">
+        {BACKGROUND_THEMES.map((t) => (
+          <button
+            key={t.id}
+            type="button"
+            title={t.name}
+            aria-label={`Switch background to ${t.name}`}
+            onClick={() => setThemeId(t.id)}
+            className={`h-6 w-6 rounded-full bg-gradient-to-br transition-transform hover:scale-110 ${
+              t.gradient.replace('bg-gradient-to-br ', '')
+            } ${t.id === themeId ? 'ring-2 ring-mint-500 ring-offset-1 ring-offset-surface' : ''}`}
+          />
+        ))}
+      </div>
+
       <div className="flex min-h-[500px] flex-col items-center justify-start gap-4 pt-8">
         {/* Accessories — top row */}
         <AnimatePresence mode="popLayout">

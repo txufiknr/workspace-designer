@@ -1,6 +1,8 @@
 'use client';
 
+import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import confetti from 'canvas-confetti';
 import { getProduct } from '@/lib/products';
 import AnimatedPrice from './AnimatedPrice';
 import { Button } from './ui';
@@ -22,6 +24,16 @@ export default function ConfirmationModal({
   const selectedIds = [config.desk, config.chair, ...config.accessories].filter(
     Boolean,
   ) as string[];
+
+  useEffect(() => {
+    if (!open) return;
+    const duration = 1200;
+    confetti({ particleCount: 110, spread: 75, origin: { y: 0.6 }, zIndex: 1000 });
+    confetti({ particleCount: 60, angle: 60, spread: 55, origin: { x: 0, y: 0.7 }, zIndex: 1000 });
+    confetti({ particleCount: 60, angle: 120, spread: 55, origin: { x: 1, y: 0.7 }, zIndex: 1000 });
+    const timer = setTimeout(() => confetti.reset(), duration);
+    return () => clearTimeout(timer);
+  }, [open]);
 
   return (
     <AnimatePresence>
