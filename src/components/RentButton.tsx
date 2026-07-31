@@ -5,6 +5,7 @@ import { useWorkspace } from '@/context/workspace-context';
 import { getProduct } from '@/lib/products';
 import { DEFAULT_RENTAL_PERIOD, MULTIPLIERS } from '@/lib/constants';
 import { rentWorkspace } from '@/lib/actions';
+import { Button } from './ui';
 import ConfirmationModal from './ConfirmationModal';
 
 export default function RentButton() {
@@ -42,13 +43,14 @@ export default function RentButton() {
 
   return (
     <>
-      <button
+      <Button
         onClick={handleRent}
-        disabled={submitted}
-        className="wd-btn-primary disabled:opacity-50"
+        loading={submitted}
+        size="lg"
+        className="w-full"
       >
         {submitted ? 'Submitting...' : 'Rent This Setup'}
-      </button>
+      </Button>
 
       <ConfirmationModal
         config={config}

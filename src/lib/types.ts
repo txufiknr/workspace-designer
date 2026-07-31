@@ -2,6 +2,7 @@ export type WorkspaceConfig = {
   desk: string | null;
   chair: string | null;
   accessories: string[];
+  activePreset?: string;
 };
 
 export type ProductCategory = 'desk' | 'chair' | 'accessory';

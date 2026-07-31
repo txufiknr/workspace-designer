@@ -1,14 +1,16 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import { Trash2 } from 'lucide-react';
 import { useWorkspace } from '@/context/workspace-context';
 import { getProduct } from '@/lib/products';
 import { MULTIPLIERS, type RentalPeriod } from '@/lib/constants';
 import RentalPeriodToggle from './RentalPeriodToggle';
 import AnimatedPrice from './AnimatedPrice';
+import { Badge, IconButton } from './ui';
 
 export default function ItemList() {
-  const { config } = useWorkspace();
+  const { config, dispatch } = useWorkspace();
   const [multiplier, setMultiplier] = useState(MULTIPLIERS['monthly']);
   const [period, setPeriod] = useState<RentalPeriod>('monthly');
 
@@ -34,13 +36,23 @@ export default function ItemList() {
     setMultiplier(mult);
   }
 
+  function handleRemove(id: string) {
+    const product = getProduct(id);
+    if (!product) return;
+    if (product.category === 'desk') {
+      dispatch({ type: 'DESELECT_DESK' });
+    } else if (product.category === 'chair') {
+      dispatch({ type: 'DESELECT_CHAIR' });
+    } else {
+      dispatch({ type: 'TOGGLE_ACCESSORY', id });
+    }
+  }
+
   return (
-    <div className="mb-4 space-y-3">
+    <div className="space-y-3">
       <div className="flex items-center justify-between">
         <h3 className="font-semibold">Your Setup</h3>
-        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-mint-500/20 text-xs text-mint-400">
-          {selectedIds.length}
-        </span>
+        <Badge count={selectedIds.length} />
       </div>
 
       <RentalPeriodToggle onChange={handlePeriodChange} />
@@ -50,9 +62,19 @@ export default function ItemList() {
           const product = getProduct(id);
           if (!product) return null;
           return (
-            <div key={id} className="flex justify-between text-sm">
+            <div
+              key={id}
+              className="flex items-center justify-between text-sm"
+            >
               <span className="text-gray-400">{product.name}</span>
-              <AnimatedPrice value={product.price * multiplier} />
+              <div className="flex items-center gap-2">
+                <AnimatedPrice value={product.price * multiplier} />
+                <IconButton
+                  icon={<Trash2 size={14} />}
+                  label={`Remove ${product.name}`}
+                  onClick={() => handleRemove(id)}
+                />
+              </div>
             </div>
           );
         })}
@@ -63,7 +85,9 @@ export default function ItemList() {
           Total{' '}
           <span className="text-xs text-gray-500">/{period}</span>
         </span>
-        <span className="text-lg text-coral-400"><AnimatedPrice value={total} /></span>
+        <span className="text-lg text-coral-400">
+          <AnimatedPrice value={total} />
+        </span>
       </div>
     </div>
   );

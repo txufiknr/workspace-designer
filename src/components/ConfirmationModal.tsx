@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { getProduct } from '@/lib/products';
 import AnimatedPrice from './AnimatedPrice';
+import { Button } from './ui';
 import type { WorkspaceConfig } from '@/lib/types';
 
 export default function ConfirmationModal({
@@ -56,7 +57,7 @@ export default function ConfirmationModal({
                     className="flex items-center justify-between rounded-lg bg-surface px-3 py-2 text-sm"
                   >
                     <span className="text-gray-300">{product.name}</span>
-                    <span className="text-coral-400">${product.price}</span>
+                    <span className="text-coral-400"><AnimatedPrice value={product.price} /></span>
                   </div>
                 );
               })}
@@ -67,12 +68,9 @@ export default function ConfirmationModal({
               <span className="text-xl font-bold text-coral-400"><AnimatedPrice value={total} /></span>
             </div>
 
-            <button
-              onClick={onClose}
-              className="wd-btn-primary"
-            >
+            <Button onClick={onClose} size="lg" className="w-full">
               Done
-            </button>
+            </Button>
           </motion.div>
         </motion.div>
       )}

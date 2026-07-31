@@ -4,17 +4,18 @@ import {
   createContext,
   useContext,
   useReducer,
-  useOptimistic,
   type ReactNode,
 } from 'react';
 import type { WorkspaceConfig } from '@/lib/types';
 
 type Action =
   | { type: 'SELECT_DESK'; id: string }
+  | { type: 'DESELECT_DESK' }
   | { type: 'SELECT_CHAIR'; id: string }
+  | { type: 'DESELECT_CHAIR' }
   | { type: 'TOGGLE_ACCESSORY'; id: string }
   | { type: 'RESET' }
-  | { type: 'LOAD_PRESET'; config: WorkspaceConfig };
+  | { type: 'LOAD_PRESET'; config: WorkspaceConfig; presetId: string };
 
 const INITIAL_CONFIG: WorkspaceConfig = {
   desk: null,
@@ -22,23 +23,32 @@ const INITIAL_CONFIG: WorkspaceConfig = {
   accessories: [],
 };
 
+function clearPreset(state: WorkspaceConfig): WorkspaceConfig {
+  if (!state.activePreset) return state;
+  return { ...state, activePreset: undefined };
+}
+
 function reducer(state: WorkspaceConfig, action: Action): WorkspaceConfig {
   switch (action.type) {
     case 'SELECT_DESK':
-      return { ...state, desk: action.id };
+      return clearPreset({ ...state, desk: action.id });
+    case 'DESELECT_DESK':
+      return clearPreset({ ...state, desk: null });
     case 'SELECT_CHAIR':
-      return { ...state, chair: action.id };
+      return clearPreset({ ...state, chair: action.id });
+    case 'DESELECT_CHAIR':
+      return clearPreset({ ...state, chair: null });
     case 'TOGGLE_ACCESSORY': {
       const exists = state.accessories.includes(action.id);
-      return {
+      return clearPreset({
         ...state,
         accessories: exists
           ? state.accessories.filter((id) => id !== action.id)
           : [...state.accessories, action.id],
-      };
+      });
     }
     case 'LOAD_PRESET':
-      return action.config;
+      return { ...action.config, activePreset: action.presetId };
     case 'RESET':
       return INITIAL_CONFIG;
     default:

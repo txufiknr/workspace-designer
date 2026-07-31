@@ -32,27 +32,31 @@
   --color-border-focus: #10B981;
 }
 
+/* Branded scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #38383A transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #38383A;
+  border-radius: 3px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #52525B;
+}
+
 @layer components {
-  .wd-card-default {
-    @apply w-full rounded-xl border border-border bg-surface p-4 text-left transition-all duration-150 hover:cursor-pointer hover:border-gray-600 hover:bg-surface-hover;
-  }
-
-  .wd-card-selected {
-    @apply w-full rounded-xl border border-mint-500 bg-mint-500/10 p-4 text-left transition-all duration-150;
-  }
-
-  .wd-card-accessory {
-    @apply rounded-xl border border-border bg-surface p-3 text-center transition-all duration-150 hover:cursor-pointer hover:border-gray-600 hover:bg-surface-hover;
-  }
-
-  .wd-card-accessory--selected {
-    @apply rounded-xl border border-mint-500 bg-mint-500/10 p-3 text-center transition-all duration-150;
-  }
-
-  .wd-btn-primary {
-    @apply w-full rounded-full bg-mint-500 px-6 py-3 text-sm font-medium text-white transition-all duration-150 hover:bg-mint-600 active:scale-[0.98];
-  }
-
   .wd-section-heading {
     @apply mb-3 text-lg font-semibold text-gray-100;
   }
