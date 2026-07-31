@@ -87,7 +87,7 @@ export default function AccessoryGrid({
         ))}
       </div>
       {accessories.length === 0 && (
-        <p className="py-4 text-center text-sm text-gray-600">
+        <p className="py-4 text-center text-sm text-faint">
           No accessories match your search
         </p>
       )}

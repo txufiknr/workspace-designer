@@ -20,7 +20,7 @@ export default function DeskSelector({
 
   return (
     <section>
-      <div className="space-y-2">
+      <div className="grid grid-cols-2 gap-2">
         {desks.map((desk) => {
           const selected = config.desk === desk.id;
           return (
@@ -63,7 +63,7 @@ export default function DeskSelector({
         })}
       </div>
       {desks.length === 0 && (
-        <p className="py-4 text-center text-sm text-gray-600">No desks match your search</p>
+        <p className="py-4 text-center text-sm text-faint">No desks match your search</p>
       )}
     </section>
   );

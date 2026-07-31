@@ -8,7 +8,7 @@ export const BACKGROUND_THEMES: BackgroundTheme[] = [
   {
     id: 'classic',
     name: 'Classic',
-    gradient: 'bg-gradient-to-br from-gray-950 via-gray-950 to-surface',
+    gradient: 'bg-gradient-to-br from-background via-background to-surface',
   },
   {
     id: 'rice-terrace',

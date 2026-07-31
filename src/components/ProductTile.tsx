@@ -29,7 +29,7 @@ export default function ProductTile({
       className={`group relative block w-full overflow-hidden rounded-xl text-left transition-all duration-150 ${
         selected
           ? 'border border-mint-500 ring-2 ring-mint-500/40'
-          : 'border border-border hover:border-gray-600'
+          : 'border border-border hover:border-muted'
       }`}
     >
       <div className={`relative w-full overflow-hidden bg-surface-elevated ${aspect}`}>

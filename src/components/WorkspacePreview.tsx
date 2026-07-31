@@ -278,7 +278,7 @@ export default function WorkspacePreview() {
               <rect x="50" y="95" width="60" height="6" rx="3" fill="#38383A" />
             </svg>
             <div>
-              <p className="text-base font-medium text-foreground">
+              <p className="text-base font-medium text-white">
                 Your Workspace Awaits
               </p>
               <p className="mt-1 text-sm text-faint">
@@ -292,7 +292,7 @@ export default function WorkspacePreview() {
       {/* Drop hint overlay */}
       {draggingFromSidebar && (
         <div className="pointer-events-none absolute inset-0 z-40 flex items-center justify-center rounded-2xl bg-mint-500/10">
-          <p className="rounded-full border border-mint-500/40 bg-gray-950/80 px-4 py-2 text-sm font-medium text-mint-400">
+          <p className="rounded-full border border-mint-500/40 bg-background/80 px-4 py-2 text-sm font-medium text-mint-600 dark:text-mint-400">
             Drop to add accessory
           </p>
         </div>

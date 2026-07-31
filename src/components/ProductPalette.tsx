@@ -220,12 +220,14 @@ export default function ProductPalette({
                       )}
                     </button>
                     <div
-                      className={`overflow-hidden transition-all duration-500 ${
-                        isCollapsed ? 'max-h-0' : 'max-h-[1000px]'
+                      className={`grid transition-[grid-template-rows] duration-500 ${
+                        isCollapsed ? 'grid-rows-[0fr]' : 'grid-rows-[1fr]'
                       }`}
                     >
-                      <div className="pb-3">
-                        {renderSectionContent(section.id)}
+                      <div className="min-h-0 overflow-hidden">
+                        <div className="pb-3">
+                          {renderSectionContent(section.id)}
+                        </div>
                       </div>
                     </div>
                   </div>

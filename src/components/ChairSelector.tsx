@@ -20,7 +20,7 @@ export default function ChairSelector({
 
   return (
     <section>
-      <div className="space-y-2">
+      <div className="grid grid-cols-2 gap-2">
         {chairs.map((chair) => {
           const selected = config.chair === chair.id;
           return (
@@ -63,7 +63,7 @@ export default function ChairSelector({
         })}
       </div>
       {chairs.length === 0 && (
-        <p className="py-4 text-center text-sm text-gray-600">No chairs match your search</p>
+        <p className="py-4 text-center text-sm text-faint">No chairs match your search</p>
       )}
     </section>
   );
