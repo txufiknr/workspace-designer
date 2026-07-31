@@ -1,5 +1,8 @@
 'use client';
 
+import { useDroppable, useDndContext } from '@dnd-kit/core';
+import { SortableContext, useSortable, rectSortingStrategy } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import { Trash2 } from 'lucide-react';
 import { useWorkspace } from '@/context/workspace-context';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -7,15 +10,93 @@ import Image from 'next/image';
 import { getProduct } from '@/lib/products';
 import { IconButton } from './ui';
 
+function SortableAccessory({
+  id,
+  name,
+  image,
+}: {
+  id: string;
+  name: string;
+  image: string;
+}) {
+  const { dispatch } = useWorkspace();
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+    isOver,
+  } = useSortable({ id: `preview-${id}` });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    zIndex: isDragging ? 30 : undefined,
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.8 }}
+      className="flex"
+    >
+      <div
+        ref={setNodeRef}
+        {...listeners}
+        {...attributes}
+        style={style}
+        className={`group relative flex h-32 w-28 cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border bg-surface/80 p-3 transition-colors ${
+          isOver
+            ? 'border-mint-500 bg-mint-500/10'
+            : 'border-coral-500/30'
+        } ${isDragging ? 'opacity-0' : ''}`}
+      >
+        <Image
+          src={image}
+          alt={name}
+          width={60}
+          height={50}
+          className="max-h-12 object-contain"
+        />
+        <p className="text-center text-xs text-coral-400">{name}</p>
+        <IconButton
+          icon={<Trash2 size={12} />}
+          label={`Remove ${name}`}
+          variant="danger"
+          shape="circle"
+          size="sm"
+          onClick={() => dispatch({ type: 'TOGGLE_ACCESSORY', id })}
+          className="absolute -right-1.5 -top-1.5 opacity-0 group-hover:opacity-100"
+        />
+      </div>
+    </motion.div>
+  );
+}
+
 export default function WorkspacePreview() {
   const { config, dispatch } = useWorkspace();
+  const { setNodeRef: setSectionRef, isOver } = useDroppable({ id: 'preview-drop' });
+  const { active } = useDndContext();
+
+  const draggingFromSidebar =
+    isOver && active != null && String(active.id).startsWith('accessory-');
 
   const selectedAccessories = config.accessories
     .map((id) => getProduct(id))
     .filter((p): p is NonNullable<typeof p> => p != null);
 
+  const sortableIds = config.accessories.map((id) => `preview-${id}`);
+
   return (
-    <section className="flex-1 rounded-2xl border border-border bg-gradient-to-br from-gray-950 via-gray-950 to-surface p-6">
+    <section
+      ref={setSectionRef}
+      className={`relative flex-1 rounded-2xl border bg-gradient-to-br from-gray-950 via-gray-950 to-surface p-6 transition-colors ${
+        isOver ? 'border-mint-500/70' : 'border-border'
+      }`}
+    >
       <div className="flex min-h-[500px] flex-col items-center justify-start gap-4 pt-8">
         {/* Accessories — top row */}
         <AnimatePresence mode="popLayout">
@@ -26,36 +107,16 @@ export default function WorkspacePreview() {
               animate={{ opacity: 1, y: 0 }}
               className="flex flex-wrap justify-center gap-3"
             >
-              {selectedAccessories.map((product) => (
-                <motion.div
-                  key={product.id}
-                  layout
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.8 }}
-                  className="group relative flex flex-col items-center gap-1 rounded-xl border border-coral-500/30 bg-surface/80 p-3"
-                >
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    width={60}
-                    height={50}
-                    className="max-h-12 object-contain"
+              <SortableContext items={sortableIds} strategy={rectSortingStrategy}>
+                {selectedAccessories.map((product) => (
+                  <SortableAccessory
+                    key={product.id}
+                    id={product.id}
+                    name={product.name}
+                    image={product.image}
                   />
-                  <p className="text-xs text-coral-400">{product.name}</p>
-                  <IconButton
-                    icon={<Trash2 size={12} />}
-                    label={`Remove ${product.name}`}
-                    variant="danger"
-                    shape="circle"
-                    size="sm"
-                    onClick={() =>
-                      dispatch({ type: 'TOGGLE_ACCESSORY', id: product.id })
-                    }
-                    className="absolute -right-1.5 -top-1.5 opacity-0 group-hover:opacity-100"
-                  />
-                </motion.div>
-              ))}
+                ))}
+              </SortableContext>
             </motion.div>
           )}
         </AnimatePresence>
@@ -186,6 +247,15 @@ export default function WorkspacePreview() {
           </motion.div>
         )}
       </div>
+
+      {/* Drop hint overlay */}
+      {draggingFromSidebar && (
+        <div className="pointer-events-none absolute inset-0 z-40 flex items-center justify-center rounded-2xl bg-mint-500/10">
+          <p className="rounded-full border border-mint-500/40 bg-gray-950/80 px-4 py-2 text-sm font-medium text-mint-400">
+            Drop to add accessory
+          </p>
+        </div>
+      )}
     </section>
   );
 }

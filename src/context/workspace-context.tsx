@@ -16,6 +16,7 @@ type Action =
   | { type: 'SELECT_CHAIR'; id: string }
   | { type: 'DESELECT_CHAIR' }
   | { type: 'TOGGLE_ACCESSORY'; id: string }
+  | { type: 'REORDER_ACCESSORIES'; from: number; to: number }
   | { type: 'RESET' }
   | { type: 'LOAD_PRESET'; config: WorkspaceConfig; presetId: string }
   | { type: 'HYDRATE'; config: WorkspaceConfig };
@@ -61,6 +62,16 @@ function reducer(state: WorkspaceConfig, action: Action): WorkspaceConfig {
           ? state.accessories.filter((id) => id !== action.id)
           : [...state.accessories, action.id],
       });
+    }
+    case 'REORDER_ACCESSORIES': {
+      const { from, to } = action;
+      if (from === to) return state;
+      const moved = state.accessories[from];
+      if (moved === undefined) return state;
+      const next = [...state.accessories];
+      next.splice(from, 1);
+      next.splice(to, 0, moved);
+      return clearPreset({ ...state, accessories: next });
     }
     case 'LOAD_PRESET':
       return { ...action.config, activePreset: action.presetId };
