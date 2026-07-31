@@ -3,12 +3,17 @@
 import { Trash2 } from 'lucide-react';
 import { useWorkspace } from '@/context/workspace-context';
 import { PRODUCTS_BY_CATEGORY } from '@/lib/products';
+import type { Product } from '@/lib/types';
 import ProductIcon from './ProductIcon';
 import { Card, IconButton } from './ui';
 
-export default function AccessoryGrid() {
+export default function AccessoryGrid({
+  products,
+}: {
+  products?: Product[];
+}) {
   const { config, dispatch } = useWorkspace();
-  const accessories = PRODUCTS_BY_CATEGORY.accessory;
+  const accessories = products ?? PRODUCTS_BY_CATEGORY.accessory;
 
   return (
     <section>
@@ -43,6 +48,9 @@ export default function AccessoryGrid() {
           );
         })}
       </div>
+      {accessories.length === 0 && (
+        <p className="py-4 text-center text-sm text-gray-600">No accessories match your search</p>
+      )}
     </section>
   );
 }

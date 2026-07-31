@@ -3,12 +3,17 @@
 import { Trash2 } from 'lucide-react';
 import { useWorkspace } from '@/context/workspace-context';
 import { PRODUCTS_BY_CATEGORY } from '@/lib/products';
+import type { Product } from '@/lib/types';
 import ProductIcon from './ProductIcon';
 import { Card, IconButton } from './ui';
 
-export default function ChairSelector() {
+export default function ChairSelector({
+  products,
+}: {
+  products?: Product[];
+}) {
   const { config, dispatch } = useWorkspace();
-  const chairs = PRODUCTS_BY_CATEGORY.chair;
+  const chairs = products ?? PRODUCTS_BY_CATEGORY.chair;
 
   return (
     <section>
@@ -40,6 +45,9 @@ export default function ChairSelector() {
           );
         })}
       </div>
+      {chairs.length === 0 && (
+        <p className="py-4 text-center text-sm text-gray-600">No chairs match your search</p>
+      )}
     </section>
   );
 }
