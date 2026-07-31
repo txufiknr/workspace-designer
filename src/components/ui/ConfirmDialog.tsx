@@ -57,13 +57,13 @@ export const ConfirmDialog = forwardRef<ConfirmDialogHandle, ConfirmDialogProps>
           <div className="flex justify-end gap-3 pt-2">
             <button
               value="cancel"
-              className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-surface-hover"
+              className="rounded-lg border border-border px-4 py-2 text-sm font-medium cursor-pointer text-foreground transition-colors hover:bg-surface-hover"
             >
               {cancelText}
             </button>
             <button
               value="confirmed"
-              className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${confirmStyles}`}
+              className={`rounded-lg px-4 py-2 text-sm font-medium cursor-pointer transition-colors ${confirmStyles}`}
             >
               {confirmText}
             </button>

@@ -8,13 +8,15 @@ export default function ProductTile({
   image,
   name,
   price,
+  description,
   selected = false,
   aspect = 'aspect-[4/3]',
   onClick,
 }: {
   image: string;
   name: string;
-  price: number;
+  price?: number;
+  description?: string;
   selected?: boolean;
   aspect?: string;
   onClick: () => void;
@@ -26,7 +28,7 @@ export default function ProductTile({
       type="button"
       onClick={onClick}
       aria-pressed={selected}
-      className={`group relative block w-full overflow-hidden rounded-xl text-left transition-all duration-150 ${
+      className={`group relative block w-full overflow-hidden cursor-pointer rounded-xl text-left transition-all duration-150 ${
         selected
           ? 'border border-mint-500 ring-2 ring-mint-500/40'
           : 'border border-border hover:border-muted'
@@ -47,11 +49,15 @@ export default function ProductTile({
         />
       </div>
       <div className="flex flex-col gap-0.5 px-2 py-1.5">
-        <p className="truncate text-xs font-semibold text-foreground">{name}</p>
-        <p className="text-xs font-medium text-coral-600 dark:text-coral-400">
-          ${price}
-          <span className="text-muted">/mo</span>
-        </p>
+        <p className="truncate text-sm font-semibold text-foreground">{name}</p>
+        {description ? (
+          <p className="line-clamp-2 text-xs text-muted">{description}</p>
+        ) : (
+          <p className="text-xs font-medium text-coral-600 dark:text-coral-400">
+            ${price}
+            <span className="text-muted">/mo</span>
+          </p>
+        )}
       </div>
     </button>
   );

@@ -6,7 +6,8 @@ import Image from 'next/image';
 import { useWorkspace } from '@/context/workspace-context';
 import { PRESETS, type Preset } from '@/lib/presets';
 import { getProduct } from '@/lib/products';
-import { Card, ConfirmDialog, useToast } from './ui';
+import { ConfirmDialog, useToast } from './ui';
+import ProductTile from './ProductTile';
 import { useConfirmDialog } from '@/hooks/useConfirmDialog';
 
 export default function PersonaPresets() {
@@ -45,28 +46,14 @@ export default function PersonaPresets() {
         {PRESETS.map((preset) => {
           const isActive = config.activePreset === preset.id;
           return (
-              <Card
-                key={preset.id}
-                variant={isActive ? 'selected' : 'default'}
-                onClick={() => handleClick(preset.id)}
-                className="overflow-hidden p-0! text-center"
-              >
-                <Image
-                  src={preset.image}
-                  alt={preset.name}
-                  width={200}
-                  height={150}
-                  className="h-20 w-full object-cover"
-                />
-                <div className="flex flex-col items-center gap-1 px-2 pb-2 pt-1.5">
-                  <span className="text-sm font-medium text-foreground">
-                    {preset.name}
-                  </span>
-                  <span className="text-xs text-muted text-center line-clamp-2">
-                    {preset.description}
-                  </span>
-                </div>
-              </Card>
+            <ProductTile
+              key={preset.id}
+              image={preset.image}
+              name={preset.name}
+              description={preset.description}
+              selected={isActive}
+              onClick={() => handleClick(preset.id)}
+            />
           );
         })}
       </div>

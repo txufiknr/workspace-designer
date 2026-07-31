@@ -48,7 +48,7 @@ function DragOverlayClone({ product }: { product: Product }) {
         height={50}
         className="max-h-12 object-contain"
       />
-      <p className="text-xs font-medium text-foreground">{product.name}</p>
+      <p className="text-center text-xs text-coral-600 dark:text-coral-400">{product.name}</p>
     </div>
   );
 }
