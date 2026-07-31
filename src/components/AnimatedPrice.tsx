@@ -14,7 +14,7 @@ export default function AnimatedPrice({ value }: { value: number }) {
       onUpdate: (v) => setDisplay(Math.round(v)),
     });
     return controls.stop;
-  }, [value]);
+  }, [display, value]);
 
   return <span className="tabular-nums">${display}</span>;
 }
