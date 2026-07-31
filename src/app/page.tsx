@@ -8,6 +8,7 @@ import {
   KeyboardSensor,
   useSensor,
   useSensors,
+  useDndContext,
   type DragStartEvent,
   type DragEndEvent,
 } from '@dnd-kit/core';
@@ -24,12 +25,39 @@ import CartDrawer from '@/components/CartDrawer';
 import ConfirmationModal from '@/components/ConfirmationModal';
 import { DEFAULT_RENTAL_PERIOD } from '@/lib/constants';
 
+function DragOverlayClone({ product }: { product: Product }) {
+  const { activeNodeRect } = useDndContext();
+  const [size, setSize] = useState<{ width: number; height: number } | null>(null);
+  if (
+    activeNodeRect &&
+    (size === null ||
+      activeNodeRect.width !== size.width ||
+      activeNodeRect.height !== size.height)
+  ) {
+    setSize({ width: activeNodeRect.width, height: activeNodeRect.height });
+  }
+  return (
+    <div
+      className="flex flex-col items-center justify-center gap-1 rounded-xl border border-mint-500/50 bg-surface p-3 shadow-2xl"
+      style={size ? { width: size.width, height: size.height } : undefined}
+    >
+      <Image
+        src={product.image}
+        alt={product.name}
+        width={60}
+        height={50}
+        className="max-h-12 object-contain"
+      />
+      <p className="text-xs font-medium text-foreground">{product.name}</p>
+    </div>
+  );
+}
+
 function WorkspaceDesigner() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const [rentedTotal, setRentedTotal] = useState<number | null>(null);
   const [activeDrag, setActiveDrag] = useState<Product | null>(null);
-  const [dragSize, setDragSize] = useState<{ width: number; height: number } | null>(null);
   const { config, dispatch } = useWorkspace();
   const { toast } = useToast();
 
@@ -47,20 +75,16 @@ function WorkspaceDesigner() {
       productId = config.accessories.find((id) => `preview-${id}` === activeId);
     }
     if (!productId) return;
-    const rect = event.active.rect.current.initial;
-    if (rect) setDragSize({ width: rect.width, height: rect.height });
     setActiveDrag(getProduct(productId) ?? null);
   }
 
   function handleDragCancel() {
     setActiveDrag(null);
-    setDragSize(null);
   }
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
     setActiveDrag(null);
-    setDragSize(null);
     if (!over) return;
 
     const activeId = String(active.id);
@@ -131,21 +155,7 @@ function WorkspaceDesigner() {
       </div>
 
       <DragOverlay>
-        {activeDrag && (
-          <div
-            className="flex flex-col items-center justify-center gap-1 rounded-xl border border-mint-500/50 bg-surface p-3 shadow-2xl"
-            style={dragSize ? { width: dragSize.width, height: dragSize.height } : undefined}
-          >
-            <Image
-              src={activeDrag.image}
-              alt={activeDrag.name}
-              width={60}
-              height={50}
-              className="max-h-12 object-contain"
-            />
-            <p className="text-xs font-medium text-foreground">{activeDrag.name}</p>
-          </div>
-        )}
+        {activeDrag && <DragOverlayClone product={activeDrag} />}
       </DragOverlay>
     </DndContext>
   );

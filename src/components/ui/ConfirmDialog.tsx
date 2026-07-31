@@ -40,7 +40,7 @@ export const ConfirmDialog = forwardRef<ConfirmDialogHandle, ConfirmDialogProps>
     const confirmStyles =
       variant === 'destructive'
         ? 'bg-coral-500 hover:bg-coral-400 text-white'
-        : 'bg-mint-500 hover:bg-mint-400 text-gray-950';
+        : 'bg-mint-500 hover:bg-mint-400 text-white';
 
     return (
       <dialog

@@ -45,14 +45,13 @@ export default function ProductTile({
           onLoad={() => setLoading(false)}
           onError={() => setLoading(false)}
         />
-
-        {/* Scrim — grows taller on hover/focus to reveal price */}
-        <div className="absolute inset-x-0 bottom-0 flex flex-col justify-end bg-gradient-to-t from-black/85 via-black/45 to-transparent px-3 pb-2.5 pt-8 transition-[padding] duration-300 ease-out group-hover:pt-12 group-focus-visible:pt-12">
-          <div className="max-h-0 overflow-hidden transition-all duration-300 ease-out group-hover:max-h-8 group-focus-visible:max-h-8">
-            <p className="text-sm font-medium text-mint-300">${price}/mo</p>
-          </div>
-          <p className="truncate text-sm font-semibold text-white">{name}</p>
-        </div>
+      </div>
+      <div className="flex flex-col gap-0.5 px-2 py-1.5">
+        <p className="truncate text-xs font-semibold text-foreground">{name}</p>
+        <p className="text-xs font-medium text-coral-600 dark:text-coral-400">
+          ${price}
+          <span className="text-muted">/mo</span>
+        </p>
       </div>
     </button>
   );
