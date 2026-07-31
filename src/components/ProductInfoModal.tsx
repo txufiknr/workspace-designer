@@ -57,7 +57,7 @@ export default function ProductInfoModal({
     <Dialog open={product != null} onClose={onClose} title={product?.name}>
       {product && (
         <div className="space-y-4">
-          <div className="flex h-44 items-center justify-center rounded-xl border border-border bg-gray-900/50">
+          <div className="flex h-44 items-center justify-center rounded-xl border border-border bg-surface-elevated">
             <Image
               src={product.image}
               alt={product.name}
@@ -68,17 +68,17 @@ export default function ProductInfoModal({
           </div>
 
           <div className="flex items-center justify-between">
-            <span className="rounded-full bg-mint-500/20 px-3 py-1 text-xs font-medium text-mint-400">
+            <span className="rounded-full bg-mint-500/20 px-3 py-1 text-xs font-medium text-mint-600 dark:text-mint-400">
               {categoryLabels[product.category]}
             </span>
-            <span className="text-lg font-semibold text-coral-400">
+            <span className="text-lg font-semibold text-coral-600 dark:text-coral-400">
               ${product.price}
-              <span className="text-sm font-normal text-gray-500">/mo</span>
+              <span className="text-sm font-normal text-muted">/mo</span>
             </span>
           </div>
 
           {product.description && (
-            <p className="text-sm leading-relaxed text-gray-400">
+            <p className="text-sm leading-relaxed text-muted">
               {product.description}
             </p>
           )}

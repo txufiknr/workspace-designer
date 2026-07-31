@@ -104,7 +104,7 @@ function WorkspaceDesigner() {
       onDragEnd={handleDragEnd}
       onDragCancel={handleDragCancel}
     >
-      <div className="flex h-screen overflow-hidden bg-gray-950">
+      <div className="flex h-screen overflow-hidden bg-background">
         <ProductPalette
           collapsed={sidebarCollapsed}
           onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
@@ -135,7 +135,7 @@ function WorkspaceDesigner() {
               height={50}
               className="max-h-12 object-contain"
             />
-            <p className="text-xs font-medium text-gray-200">{activeDrag.name}</p>
+            <p className="text-xs font-medium text-foreground">{activeDrag.name}</p>
           </div>
         )}
       </DragOverlay>

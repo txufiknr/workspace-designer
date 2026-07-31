@@ -11,9 +11,9 @@ interface CardProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantClasses: Record<CardVariant, string> = {
-  default: 'w-full rounded-xl border border-border bg-surface text-left hover:cursor-pointer hover:border-gray-600 hover:bg-surface-hover',
+  default: 'w-full rounded-xl border border-border bg-surface text-left hover:cursor-pointer hover:border-muted hover:bg-surface-hover',
   selected: 'w-full rounded-xl border border-mint-500 bg-mint-500/10 text-left',
-  accessory: 'flex w-full min-w-0 flex-col items-center gap-1 rounded-xl border border-border bg-surface text-center hover:cursor-pointer hover:border-gray-600 hover:bg-surface-hover',
+  accessory: 'flex w-full min-w-0 flex-col items-center gap-1 rounded-xl border border-border bg-surface text-center hover:cursor-pointer hover:border-muted hover:bg-surface-hover',
   'accessory-selected': 'flex w-full min-w-0 flex-col items-center gap-1 rounded-xl border border-mint-500 bg-mint-500/10 text-center',
 };
 

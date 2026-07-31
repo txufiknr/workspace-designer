@@ -42,8 +42,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.variable}>
-      <body className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-950 to-surface font-sans text-gray-100 antialiased">
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
+      <body className="min-h-screen bg-gradient-to-br from-background via-background to-surface font-sans text-foreground antialiased">
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme');var dark=t?t==='dark':true;document.documentElement.classList.toggle('dark',dark);var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',dark?'#030712':'#F5F5F7');}catch(e){}})();`,
+          }}
+        />
         {children}
       </body>
     </html>

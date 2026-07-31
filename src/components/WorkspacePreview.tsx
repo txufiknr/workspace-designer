@@ -69,7 +69,7 @@ function SortableAccessory({
           height={50}
           className="max-h-12 object-contain"
         />
-        <p className="text-center text-xs text-coral-400">{name}</p>
+        <p className="text-center text-xs text-coral-600 dark:text-coral-400">{name}</p>
         <IconButton
           icon={<Trash2 size={12} />}
           label={`Remove ${name}`}
@@ -176,7 +176,7 @@ export default function WorkspacePreview() {
                       height={70}
                       className="max-h-16 object-contain"
                     />
-                    <p className="text-sm text-mint-400">{product.name}</p>
+                    <p className="text-sm text-mint-600 dark:text-mint-400">{product.name}</p>
                     <IconButton
                       icon={<Trash2 size={14} />}
                       label="Remove desk"
@@ -196,7 +196,7 @@ export default function WorkspacePreview() {
           })()
         ) : (
           <div className="flex w-full max-w-md items-center justify-center rounded-xl border-2 border-dashed border-border bg-surface/50 p-12">
-            <p className="text-sm text-gray-600">Select a desk</p>
+            <p className="text-sm text-faint">Select a desk</p>
           </div>
         )}
 
@@ -222,7 +222,7 @@ export default function WorkspacePreview() {
                       height={70}
                       className="max-h-14 object-contain"
                     />
-                    <p className="text-xs text-mint-400">{product.name}</p>
+                    <p className="text-xs text-mint-600 dark:text-mint-400">{product.name}</p>
                     <IconButton
                       icon={<Trash2 size={12} />}
                       label="Remove chair"
@@ -242,7 +242,7 @@ export default function WorkspacePreview() {
           })()
         ) : (
           <div className="flex w-40 items-center justify-center rounded-xl border-2 border-dashed border-border bg-surface/50 p-6">
-            <p className="text-sm text-gray-600">Select a chair</p>
+            <p className="text-sm text-faint">Select a chair</p>
           </div>
         )}
 
@@ -278,10 +278,10 @@ export default function WorkspacePreview() {
               <rect x="50" y="95" width="60" height="6" rx="3" fill="#38383A" />
             </svg>
             <div>
-              <p className="text-base font-medium text-gray-400">
+              <p className="text-base font-medium text-foreground">
                 Your Workspace Awaits
               </p>
-              <p className="mt-1 text-sm text-gray-600">
+              <p className="mt-1 text-sm text-faint">
                 Pick a desk, chair, and accessories to design your setup
               </p>
             </div>

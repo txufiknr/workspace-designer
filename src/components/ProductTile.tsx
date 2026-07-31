@@ -32,7 +32,7 @@ export default function ProductTile({
           : 'border border-border hover:border-gray-600'
       }`}
     >
-      <div className={`relative w-full overflow-hidden bg-gray-900/50 ${aspect}`}>
+      <div className={`relative w-full overflow-hidden bg-surface-elevated ${aspect}`}>
         {loading && (
           <Skeleton variant="image" className="absolute inset-0 h-full w-full" />
         )}

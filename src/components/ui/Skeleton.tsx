@@ -12,7 +12,7 @@ const variantClasses = {
 export default function Skeleton({ className = '', variant = 'text' }: SkeletonProps) {
   return (
     <div
-      className={`animate-pulse bg-gray-800 ${variantClasses[variant]} ${className}`}
+      className={`animate-pulse bg-surface-hover ${variantClasses[variant]} ${className}`}
     />
   );
 }

@@ -31,7 +31,7 @@ export default function Dialog({
   return (
     <dialog
       ref={ref}
-      className={`w-full max-w-md rounded-2xl border border-border bg-surface p-0 text-gray-100 shadow-2xl ${className}`}
+      className={`w-full max-w-md rounded-2xl border border-border bg-surface p-0 text-foreground shadow-2xl ${className}`}
       onClick={(e) => {
         if (e.target === ref.current) onClose();
       }}
@@ -42,7 +42,7 @@ export default function Dialog({
           type="button"
           onClick={onClose}
           aria-label="Close"
-          className="-mr-2 ml-auto shrink-0 rounded-lg p-1.5 text-gray-400 transition-colors hover:bg-gray-800 hover:text-gray-200"
+          className="-mr-2 ml-auto shrink-0 rounded-lg p-1.5 text-muted transition-colors hover:bg-surface-hover hover:text-foreground"
         >
           <X size={16} />
         </button>

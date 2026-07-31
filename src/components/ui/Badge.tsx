@@ -4,7 +4,7 @@ interface BadgeProps {
 }
 
 const variantClasses = {
-  mint: 'bg-mint-500/20 text-mint-400',
+  mint: 'bg-mint-500/20 text-mint-600 dark:text-mint-400',
   coral: 'bg-coral-500 text-white',
 };
 

@@ -35,7 +35,7 @@ export default function ResetButton({ collapsed, className }: { collapsed?: bool
       <Button
         variant="ghost"
         onClick={handleReset}
-        className={`border border-border hover:border-coral-500/30 hover:text-coral-400 ${
+        className={`border border-border hover:border-coral-500/30 hover:text-coral-500 ${
           className ?? 'w-full'
         }`}
         icon={<RotateCcw size={16} />}

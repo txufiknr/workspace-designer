@@ -68,7 +68,7 @@ export default function ItemList() {
               key={id}
               className="flex items-center justify-between text-sm"
             >
-              <span className="text-gray-400">{product.name}</span>
+              <span className="text-muted">{product.name}</span>
               <div className="flex items-center gap-2">
                 <AnimatedPrice value={product.price * multiplier} />
                 <IconButton
@@ -83,11 +83,11 @@ export default function ItemList() {
       </div>
 
       <div className="flex justify-between border-t border-border pt-2 font-semibold">
-        <span className="text-sm text-gray-400">
+        <span className="text-sm text-muted">
           Total{' '}
-          <span className="text-xs text-gray-500">/{period}</span>
+          <span className="text-xs text-faint">/{period}</span>
         </span>
-        <span className="text-lg text-coral-400">
+        <span className="text-lg text-coral-600 dark:text-coral-400">
           <AnimatedPrice value={total} />
         </span>
       </div>

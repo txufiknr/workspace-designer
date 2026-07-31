@@ -16,7 +16,7 @@ export default function RentalPeriodToggle({
   }
 
   return (
-    <div className="flex rounded-lg border border-border bg-gray-900 p-0.5">
+    <div className="flex rounded-lg border border-border bg-background p-0.5">
       {RENTAL_PERIODS.map((period) => (
         <button
           key={period}
@@ -24,7 +24,7 @@ export default function RentalPeriodToggle({
           className={`flex-1 rounded-md px-3 py-1.5 text-xs font-medium capitalize transition-colors ${
             active === period
               ? 'bg-mint-500 text-white'
-              : 'text-gray-400 hover:text-gray-200'
+              : 'text-muted hover:text-foreground'
           }`}
         >
           {period}

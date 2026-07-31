@@ -52,10 +52,10 @@ export default function PersonaPresets() {
               className="flex flex-col items-center gap-1 p-3 text-center"
             >
               <span className="text-xl">{preset.icon}</span>
-              <span className="text-sm font-medium text-gray-200">
+              <span className="text-sm font-medium text-foreground">
                 {preset.name}
               </span>
-              <span className="text-xs text-gray-500 text-center line-clamp-2">
+              <span className="text-xs text-muted text-center line-clamp-2">
                 {preset.description}
               </span>
             </Card>
@@ -82,7 +82,7 @@ export default function PersonaPresets() {
               return (
                 <li
                   key={id}
-                  className="flex items-center gap-2.5 rounded-lg border border-border bg-gray-900/50 px-2.5 py-1.5"
+                  className="flex items-center gap-2.5 rounded-lg border border-border bg-surface-elevated px-2.5 py-1.5"
                 >
                   <Image
                     src={product.image}
@@ -91,10 +91,10 @@ export default function PersonaPresets() {
                     height={30}
                     className="h-8 w-10 shrink-0 rounded object-cover"
                   />
-                  <span className="min-w-0 flex-1 truncate text-sm text-gray-200">
+                  <span className="min-w-0 flex-1 truncate text-sm text-foreground">
                     {product.name}
                   </span>
-                  <span className="shrink-0 text-sm font-medium text-coral-400">
+                  <span className="shrink-0 text-sm font-medium text-coral-600 dark:text-coral-400">
                     ${product.price}/mo
                   </span>
                 </li>

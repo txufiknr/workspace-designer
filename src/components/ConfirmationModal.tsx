@@ -52,7 +52,7 @@ export default function ConfirmationModal({
 
   return (
     <Dialog open={open} onClose={onClose} title="Workspace Rented! 🎉">
-      <p className="mb-4 text-sm text-gray-400">
+      <p className="mb-4 text-sm text-muted">
         Your setup has been submitted. Here&apos;s what you ordered:
       </p>
 
@@ -65,8 +65,8 @@ export default function ConfirmationModal({
               key={id}
               className="flex items-center justify-between rounded-lg bg-surface-elevated px-3 py-2 text-sm"
             >
-              <span className="text-gray-300">{product.name}</span>
-              <span className="text-coral-400">
+              <span className="text-foreground">{product.name}</span>
+              <span className="text-coral-600 dark:text-coral-400">
                 <AnimatedPrice value={product.price} />
               </span>
             </div>
@@ -75,8 +75,8 @@ export default function ConfirmationModal({
       </div>
 
       <div className="mb-6 flex items-center justify-between border-t border-border pt-3">
-        <span className="text-sm text-gray-400">Total /{period}</span>
-        <span className="text-xl font-bold text-coral-400">
+        <span className="text-sm text-muted">Total /{period}</span>
+        <span className="text-xl font-bold text-coral-600 dark:text-coral-400">
           <AnimatedPrice value={total} />
         </span>
       </div>

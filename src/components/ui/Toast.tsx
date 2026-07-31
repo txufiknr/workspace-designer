@@ -27,9 +27,9 @@ export function useToast() {
 }
 
 const typeStyles: Record<ToastType, string> = {
-  success: 'border-mint-500/40 bg-mint-500/10 text-mint-400',
-  info: 'border-border bg-surface text-gray-200',
-  error: 'border-coral-500/40 bg-coral-500/10 text-coral-400',
+  success: 'border-mint-500/40 bg-mint-500/10 text-mint-600 dark:text-mint-400',
+  info: 'border-border bg-surface text-foreground',
+  error: 'border-coral-500/40 bg-coral-500/10 text-coral-600 dark:text-coral-400',
 };
 
 export function ToastProvider({ children }: { children: ReactNode }) {

@@ -35,7 +35,7 @@ export default function CartDrawer({
             className="fixed right-0 top-0 z-50 flex h-full w-80 flex-col border-l border-border bg-surface p-6 shadow-2xl"
           >
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-lg font-bold text-gray-100">Your Setup</h2>
+              <h2 className="text-lg font-bold text-foreground">Your Setup</h2>
               <IconButton
                 icon={<X size={16} />}
                 label="Close cart"

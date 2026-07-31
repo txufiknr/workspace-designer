@@ -12,6 +12,7 @@ import ChairSelector from './ChairSelector';
 import AccessoryGrid from './AccessoryGrid';
 import PersonaPresets from './PersonaPresets';
 import ProductInfoModal from './ProductInfoModal';
+import ThemeToggle from './ThemeToggle';
 import { IconButton } from './ui';
 
 type SectionId = 'presets' | 'desk' | 'chair' | 'accessories';
@@ -89,7 +90,7 @@ export default function ProductPalette({
 
   return (
     <aside
-      className={`shrink-0 border-r border-border bg-gray-950/80 backdrop-blur-xl transition-[width] duration-300 ${
+      className={`shrink-0 border-r border-border bg-background/80 backdrop-blur-xl transition-[width] duration-300 ${
         collapsed ? 'w-16' : 'w-80'
       }`}
     >
@@ -109,7 +110,7 @@ export default function ProductPalette({
             ) : (
               <div className="flex w-full items-center justify-between">
                 <h1 className="flex items-center">
-                  <Image src="/monisrent-white.png" alt={BRAND_NAME} width={120} height={32} className="h-6 w-auto" />
+                  <Image src="/monisrent-white.png" alt={BRAND_NAME} width={120} height={32} className="h-6 w-auto invert dark:invert-0" />
                 </h1>
                 <div className="flex items-center gap-0.5">
                   <IconButton
@@ -125,6 +126,7 @@ export default function ProductPalette({
                     }}
                     size="md"
                   />
+                  <ThemeToggle />
                   <IconButton
                     icon={<ChevronLeft size={14} />}
                     label="Collapse sidebar"
@@ -143,19 +145,19 @@ export default function ProductPalette({
             }`}
           >
             <div className="flex items-center gap-2 rounded-lg border border-border bg-surface px-3 py-2 mx-4 mb-3">
-              <Search size={14} className="shrink-0 text-gray-500" />
+              <Search size={14} className="shrink-0 text-muted" />
               <input
                 ref={inputRef}
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search products..."
-                className="min-w-0 flex-1 bg-transparent text-sm text-gray-200 outline-none placeholder:text-gray-600"
+                className="min-w-0 flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-faint"
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
-                  className="shrink-0 text-gray-500 hover:text-gray-300"
+                  className="shrink-0 text-muted hover:text-foreground"
                 >
                   <CloseIcon size={14} />
                 </button>
@@ -168,7 +170,7 @@ export default function ProductPalette({
         {/* Scrollable sections */}
         <div className="flex-1 overflow-y-auto">
           {!collapsed && searchQuery && (
-            <p className="px-4 pb-2 pt-3 text-xs text-gray-500">
+            <p className="px-4 pb-2 pt-3 text-xs text-muted">
               {`${filteredDesks!.length + filteredChairs!.length + filteredAccessories!.length} results for "${searchQuery}"`}
             </p>
           )}
@@ -212,9 +214,9 @@ export default function ProductPalette({
                         {section.label}
                       </h2>
                       {isCollapsed ? (
-                        <ChevronRightIcon size={14} className="shrink-0 text-gray-500" />
+                        <ChevronRightIcon size={14} className="shrink-0 text-muted" />
                       ) : (
-                        <ChevronDown size={14} className="shrink-0 text-gray-500" />
+                        <ChevronDown size={14} className="shrink-0 text-muted" />
                       )}
                     </button>
                     <div

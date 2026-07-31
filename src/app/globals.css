@@ -1,5 +1,31 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #F5F5F7;
+  --surface: #FFFFFF;
+  --surface-hover: #F4F4F5;
+  --surface-elevated: #FFFFFF;
+  --border: #E4E4E7;
+  --foreground: #18181B;
+  --muted: #71717A;
+  --faint: #A1A1AA;
+  color-scheme: light;
+}
+
+.dark {
+  --background: #09090B;
+  --surface: #1C1C1E;
+  --surface-hover: #252527;
+  --surface-elevated: #2C2C2E;
+  --border: #38383A;
+  --foreground: #F4F4F5;
+  --muted: #A1A1AA;
+  --faint: #71717A;
+  color-scheme: dark;
+}
+
 @theme {
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
@@ -25,17 +51,24 @@
   --color-coral-800: #9A3412;
   --color-coral-900: #7C2D12;
 
-  --color-surface: #1C1C1E;
-  --color-surface-hover: #252527;
-  --color-surface-elevated: #2C2C2E;
-  --color-border: #38383A;
   --color-border-focus: #10B981;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-border: var(--border);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
 }
 
 /* Branded scrollbars */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #38383A transparent;
+  scrollbar-color: var(--border) transparent;
 }
 
 *::-webkit-scrollbar {
@@ -48,21 +81,21 @@
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: #38383A;
+  background-color: var(--border);
   border-radius: 3px;
 }
 
 *::-webkit-scrollbar-thumb:hover {
-  background-color: #52525B;
+  background-color: var(--surface-hover);
 }
 
 @layer components {
   .wd-section-heading {
-    @apply mb-3 text-sm font-semibold text-gray-100;
+    @apply mb-3 text-sm font-semibold text-foreground;
   }
 
   .wd-price-text {
-    @apply text-sm text-gray-400;
+    @apply text-sm text-muted;
   }
 }
 
