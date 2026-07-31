@@ -7,10 +7,11 @@ import { getProduct } from '@/lib/products';
 import { MULTIPLIERS, type RentalPeriod } from '@/lib/constants';
 import RentalPeriodToggle from './RentalPeriodToggle';
 import AnimatedPrice from './AnimatedPrice';
-import { Badge, IconButton } from './ui';
+import { Badge, IconButton, useToast } from './ui';
 
 export default function ItemList() {
   const { config, dispatch } = useWorkspace();
+  const { toast } = useToast();
   const [multiplier, setMultiplier] = useState(MULTIPLIERS['monthly']);
   const [period, setPeriod] = useState<RentalPeriod>('monthly');
 
@@ -39,6 +40,7 @@ export default function ItemList() {
   function handleRemove(id: string) {
     const product = getProduct(id);
     if (!product) return;
+    toast(`${product.name} removed`, 'info');
     if (product.category === 'desk') {
       dispatch({ type: 'DESELECT_DESK' });
     } else if (product.category === 'chair') {

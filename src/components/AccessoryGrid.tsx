@@ -5,7 +5,7 @@ import { useWorkspace } from '@/context/workspace-context';
 import { PRODUCTS_BY_CATEGORY } from '@/lib/products';
 import type { Product } from '@/lib/types';
 import ProductIcon from './ProductIcon';
-import { Card, IconButton } from './ui';
+import { Card, IconButton, useToast } from './ui';
 
 export default function AccessoryGrid({
   products,
@@ -13,6 +13,7 @@ export default function AccessoryGrid({
   products?: Product[];
 }) {
   const { config, dispatch } = useWorkspace();
+  const { toast } = useToast();
   const accessories = products ?? PRODUCTS_BY_CATEGORY.accessory;
 
   return (
@@ -25,9 +26,13 @@ export default function AccessoryGrid({
               <Card
                 variant={selected ? 'accessory-selected' : 'accessory'}
                 className="h-full"
-                onClick={() =>
-                  dispatch({ type: 'TOGGLE_ACCESSORY', id: item.id })
-                }
+                onClick={() => {
+                  dispatch({ type: 'TOGGLE_ACCESSORY', id: item.id });
+                  toast(
+                    selected ? `${item.name} removed` : `${item.name} added`,
+                    selected ? 'info' : 'success',
+                  );
+                }}
               >
                 <ProductIcon image={item.image} name={item.name} />
                 <p className="truncate text-sm font-medium">{item.name}</p>
@@ -38,9 +43,10 @@ export default function AccessoryGrid({
                   icon={<Trash2 size={12} />}
                   label="Remove accessory"
                   variant="default"
-                  onClick={() =>
-                    dispatch({ type: 'TOGGLE_ACCESSORY', id: item.id })
-                  }
+                  onClick={() => {
+                    dispatch({ type: 'TOGGLE_ACCESSORY', id: item.id });
+                    toast(`${item.name} removed`, 'info');
+                  }}
                   className="absolute right-1 top-1"
                 />
               )}

@@ -5,7 +5,7 @@ import { useWorkspace } from '@/context/workspace-context';
 import { PRODUCTS_BY_CATEGORY } from '@/lib/products';
 import type { Product } from '@/lib/types';
 import ProductIcon from './ProductIcon';
-import { Card, IconButton } from './ui';
+import { Card, IconButton, useToast } from './ui';
 
 export default function DeskSelector({
   products,
@@ -13,6 +13,7 @@ export default function DeskSelector({
   products?: Product[];
 }) {
   const { config, dispatch } = useWorkspace();
+  const { toast } = useToast();
   const desks = products ?? PRODUCTS_BY_CATEGORY.desk;
 
   return (
@@ -24,9 +25,10 @@ export default function DeskSelector({
             <div key={desk.id} className="relative">
               <Card
                 variant={selected ? 'selected' : 'default'}
-                onClick={() =>
-                  dispatch({ type: 'SELECT_DESK', id: desk.id })
-                }
+                onClick={() => {
+                  dispatch({ type: 'SELECT_DESK', id: desk.id });
+                  toast(`${desk.name} selected`, 'success');
+                }}
               >
                 <ProductIcon image={desk.image} name={desk.name} />
                 <p className="font-medium">{desk.name}</p>
@@ -37,7 +39,10 @@ export default function DeskSelector({
                   icon={<Trash2 size={14} />}
                   label="Remove desk"
                   variant="default"
-                  onClick={() => dispatch({ type: 'DESELECT_DESK' })}
+                  onClick={() => {
+                    dispatch({ type: 'DESELECT_DESK' });
+                    toast(`${desk.name} removed`, 'info');
+                  }}
                   className="absolute right-2 top-2"
                 />
               )}

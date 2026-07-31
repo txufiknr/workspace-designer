@@ -4,6 +4,7 @@ import {
   createContext,
   useContext,
   useReducer,
+  useEffect,
   type ReactNode,
 } from 'react';
 import type { WorkspaceConfig } from '@/lib/types';
@@ -22,6 +23,18 @@ const INITIAL_CONFIG: WorkspaceConfig = {
   chair: null,
   accessories: [],
 };
+
+const STORAGE_KEY = 'workspace-designer-config';
+
+function loadSavedConfig(): WorkspaceConfig {
+  if (typeof window === 'undefined') return INITIAL_CONFIG;
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    return saved ? JSON.parse(saved) : INITIAL_CONFIG;
+  } catch {
+    return INITIAL_CONFIG;
+  }
+}
 
 function clearPreset(state: WorkspaceConfig): WorkspaceConfig {
   if (!state.activePreset) return state;
@@ -64,7 +77,13 @@ type WorkspaceContextType = {
 const WorkspaceContext = createContext<WorkspaceContextType | null>(null);
 
 export function WorkspaceProvider({ children }: { children: ReactNode }) {
-  const [config, dispatch] = useReducer(reducer, INITIAL_CONFIG);
+  const [config, dispatch] = useReducer(reducer, INITIAL_CONFIG, loadSavedConfig);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
+    } catch { /* storage full or unavailable */ }
+  }, [config]);
 
   return (
     <WorkspaceContext.Provider value={{ config, dispatch }}>

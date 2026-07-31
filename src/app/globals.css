@@ -58,7 +58,7 @@
 
 @layer components {
   .wd-section-heading {
-    @apply mb-3 text-lg font-semibold text-gray-100;
+    @apply mb-3 text-sm font-semibold text-gray-100;
   }
 
   .wd-price-text {

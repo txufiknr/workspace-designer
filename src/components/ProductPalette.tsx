@@ -206,7 +206,7 @@ export default function ProductPalette({
                       onClick={() => toggleSection(section.id)}
                       className="mb-3 flex w-full items-center gap-2 text-left"
                     >
-                      <span className="text-sm">{section.icon}</span>
+                      <span className="inline-flex w-5 items-center justify-center text-sm">{section.icon}</span>
                       <h2 className="wd-section-heading mb-0 flex-1">
                         {section.label}
                       </h2>

@@ -5,12 +5,15 @@ import { useWorkspace } from '@/context/workspace-context';
 import { getProduct } from '@/lib/products';
 import { DEFAULT_RENTAL_PERIOD, MULTIPLIERS } from '@/lib/constants';
 import { rentWorkspace } from '@/lib/actions';
-import { Button } from './ui';
+import { Button, ConfirmDialog, useToast } from './ui';
+import { useConfirmDialog } from '@/hooks/useConfirmDialog';
 import ConfirmationModal from './ConfirmationModal';
 
 export default function RentButton() {
-  const { config } = useWorkspace();
-  const [showModal, setShowModal] = useState(false);
+  const { config, dispatch } = useWorkspace();
+  const { toast } = useToast();
+  const { ref: confirmRef, confirm } = useConfirmDialog();
+  const [showSuccess, setShowSuccess] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   const selectedIds = [
@@ -29,16 +32,30 @@ export default function RentButton() {
   );
 
   async function handleRent() {
+    const ok = await confirm();
+    if (!ok) return;
+
     setSubmitted(true);
-    await rentWorkspace({
-      desk: config.desk,
-      chair: config.chair,
-      accessories: config.accessories,
-      total,
-      period: DEFAULT_RENTAL_PERIOD,
-    });
-    setShowModal(true);
-    setSubmitted(false);
+    try {
+      await rentWorkspace({
+        desk: config.desk,
+        chair: config.chair,
+        accessories: config.accessories,
+        total,
+        period: DEFAULT_RENTAL_PERIOD,
+      });
+      setShowSuccess(true);
+      toast('Workspace submitted successfully!', 'success');
+    } catch {
+      toast('Failed to submit workspace. Please try again.', 'error');
+    } finally {
+      setSubmitted(false);
+    }
+  }
+
+  function handleCloseSuccess() {
+    setShowSuccess(false);
+    dispatch({ type: 'RESET' });
   }
 
   return (
@@ -56,9 +73,25 @@ export default function RentButton() {
         config={config}
         total={total}
         period={DEFAULT_RENTAL_PERIOD}
-        open={showModal}
-        onClose={() => setShowModal(false)}
+        open={showSuccess}
+        onClose={handleCloseSuccess}
       />
+
+      <ConfirmDialog
+        ref={confirmRef}
+        title="Confirm Your Rental"
+        confirmText="Rent Now"
+        variant="default"
+      >
+        <p className="text-sm text-gray-400">
+          You are about to rent <strong className="text-gray-200">{selectedIds.length} item(s)</strong>{' '}
+          for{' '}
+          <strong className="text-gray-200">
+            ${total}/{DEFAULT_RENTAL_PERIOD}
+          </strong>
+          .
+        </p>
+      </ConfirmDialog>
     </>
   );
 }

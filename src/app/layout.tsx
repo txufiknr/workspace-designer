@@ -1,24 +1,14 @@
-import type { Metadata } from 'next';
+'use client';
+
 import { Inter } from 'next/font/google';
 import './globals.css';
+import { ToastProvider } from '@/components/ui';
 
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-inter',
 });
-
-export const metadata: Metadata = {
-  title: 'Workspace Designer — monis.rent',
-  description:
-    'Design your dream workspace and rent it. Pick a desk, chair, and accessories — see your setup come to life.',
-};
-
-export const viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  themeColor: '#030712',
-};
 
 export default function RootLayout({
   children,
@@ -28,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-950 to-surface font-sans text-gray-100 antialiased">
-        {children}
+        <ToastProvider>{children}</ToastProvider>
       </body>
     </html>
   );

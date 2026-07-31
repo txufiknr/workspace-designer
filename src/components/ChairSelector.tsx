@@ -5,7 +5,7 @@ import { useWorkspace } from '@/context/workspace-context';
 import { PRODUCTS_BY_CATEGORY } from '@/lib/products';
 import type { Product } from '@/lib/types';
 import ProductIcon from './ProductIcon';
-import { Card, IconButton } from './ui';
+import { Card, IconButton, useToast } from './ui';
 
 export default function ChairSelector({
   products,
@@ -13,6 +13,7 @@ export default function ChairSelector({
   products?: Product[];
 }) {
   const { config, dispatch } = useWorkspace();
+  const { toast } = useToast();
   const chairs = products ?? PRODUCTS_BY_CATEGORY.chair;
 
   return (
@@ -24,9 +25,10 @@ export default function ChairSelector({
             <div key={chair.id} className="relative">
               <Card
                 variant={selected ? 'selected' : 'default'}
-                onClick={() =>
-                  dispatch({ type: 'SELECT_CHAIR', id: chair.id })
-                }
+                onClick={() => {
+                  dispatch({ type: 'SELECT_CHAIR', id: chair.id });
+                  toast(`${chair.name} selected`, 'success');
+                }}
               >
                 <ProductIcon image={chair.image} name={chair.name} />
                 <p className="font-medium">{chair.name}</p>
@@ -37,7 +39,10 @@ export default function ChairSelector({
                   icon={<Trash2 size={14} />}
                   label="Remove chair"
                   variant="default"
-                  onClick={() => dispatch({ type: 'DESELECT_CHAIR' })}
+                  onClick={() => {
+                    dispatch({ type: 'DESELECT_CHAIR' });
+                    toast(`${chair.name} removed`, 'info');
+                  }}
                   className="absolute right-2 top-2"
                 />
               )}
