@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Workspace Designer
+
+Design your dream workspace and rent it — pick a desk, chair, and accessories, watch your setup come to life in real time, then check out.
+
+<p align="center">
+  <a href="https://www.desent.io/coding-test-2">Challenge</a> ·
+  <a href="https://github.com/txufiknr/workspace-designer">Repository</a> ·
+  <a href="https://workspace-designer-psi.vercel.app/">Live Demo</a>
+</p>
+
+## Features
+
+- **Desk, Chair & Accessory Selection** — 2 desks, 2 chairs, and 6 accessories (monitors, lamps, plants). Each item shows its monthly rental price.
+- **Live Workspace Preview** — Items spring-animate into a real-time preview as you select them. Hover any item to remove it.
+- **One-Click Persona Presets** — Developer, Designer, Writer, and Gamer presets that auto-fill your setup. Confirmation dialog protects existing selections.
+- **Floating Cart + Drawer** — A cart FAB with item count badge opens a slide-in drawer showing your setup, per-item prices, and totals.
+- **Rental Period Toggle** — Switch between daily / weekly / monthly pricing with an animated price counter.
+- **Checkout Flow** — Confirmation dialog before renting, a success modal on completion, and auto-clear of the cart afterward.
+- **Toast Notifications** — Non-intrusive feedback for every action: item added/removed, preset loaded, rent submitted, and errors.
+- **Search & Collapsible Sidebar** — Filter products by name and collapse the sidebar for more preview space.
+- **Config Persistence** — Your selections survive page refreshes via `localStorage`.
+- **Persona Highlights** — Active preset is highlighted; the highlight clears as soon as you manually modify the setup.
+- **Reset Configuration** — One-click "Clear All Selections" wipes the board.
+- **Responsive & Polished** — Mobile-friendly layout, skeleton loading states, empty-state illustration, and Framer Motion micro-interactions throughout.
+
+## Tech Stack
+
+| Layer | Choice |
+|-------|--------|
+| Framework | Next.js 16 (App Router, React 19, Server Actions) |
+| Styling | Tailwind CSS v4 |
+| Animations | Framer Motion |
+| State Management | React Context + `useReducer` |
+| Icons | lucide-react |
+| Package Manager | pnpm |
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+# install dependencies
+pnpm install
+
+# run the dev server
 pnpm dev
-# or
-bun dev
+
+# build for production
+pnpm build
+
+# start the production server
+pnpm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to see the app.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+src/
+├── app/            # App Router root (layout, page)
+├── components/     # Feature components + reusable UI primitives
+│   └── ui/         # Button, Card, Badge, IconButton, Skeleton, Toast, ConfirmDialog
+├── context/        # Workspace state (Context + reducer)
+├── hooks/          # useToast, useConfirmDialog
+└── lib/            # Product data, presets, constants, server action
+```
 
-## Learn More
+## Deployment
 
-To learn more about Next.js, take a look at the following resources:
+Deployed automatically to Vercel from GitHub on every push to the main branch.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Author
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Taufik Nur Rahmanda**
+taufik.nur.rahmanda93@gmail.com
