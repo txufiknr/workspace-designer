@@ -43,36 +43,33 @@ export const ConfirmDialog = forwardRef<ConfirmDialogHandle, ConfirmDialogProps>
         : 'bg-mint-500 hover:bg-mint-400 text-gray-950';
 
     return (
-      <>
-        <style>{`dialog::backdrop{background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);}dialog[open]{margin:auto;}`}</style>
-        <dialog
-          ref={dialogRef}
-          className="w-full max-w-md rounded-2xl border border-border bg-surface p-0 text-gray-100 shadow-2xl"
-          onClick={(e) => {
-            if (e.target === dialogRef.current) dialogRef.current?.close('cancel');
-          }}
-        >
-          <form method="dialog" className="space-y-4 p-6">
-            <h2 className="text-lg font-semibold">{title}</h2>
-            {description && <p className="text-sm text-gray-400">{description}</p>}
-            {children}
-            <div className="flex justify-end gap-3 pt-2">
-              <button
-                value="cancel"
-                className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-gray-300 transition-colors hover:bg-gray-800"
-              >
-                {cancelText}
-              </button>
-              <button
-                value="confirmed"
-                className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${confirmStyles}`}
-              >
-                {confirmText}
-              </button>
-            </div>
-          </form>
-        </dialog>
-      </>
+      <dialog
+        ref={dialogRef}
+        className="w-full max-w-md rounded-2xl border border-border bg-surface p-0 text-gray-100 shadow-2xl"
+        onClick={(e) => {
+          if (e.target === dialogRef.current) dialogRef.current?.close('cancel');
+        }}
+      >
+        <form method="dialog" className="space-y-4 p-6">
+          <h2 className="text-lg font-semibold">{title}</h2>
+          {description && <p className="text-sm text-gray-400">{description}</p>}
+          {children}
+          <div className="flex justify-end gap-3 pt-2">
+            <button
+              value="cancel"
+              className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-gray-300 transition-colors hover:bg-gray-800"
+            >
+              {cancelText}
+            </button>
+            <button
+              value="confirmed"
+              className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${confirmStyles}`}
+            >
+              {confirmText}
+            </button>
+          </div>
+        </form>
+      </dialog>
     );
   },
 );

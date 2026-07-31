@@ -13,6 +13,7 @@ export type Product = {
   price: number;
   category: ProductCategory;
   image: string;
+  description?: string;
   width?: number;
   height?: number;
 };

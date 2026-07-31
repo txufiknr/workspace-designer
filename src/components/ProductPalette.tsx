@@ -5,11 +5,13 @@ import Image from 'next/image';
 import { Search, ChevronLeft, ChevronRight, ChevronDown, ChevronRight as ChevronRightIcon, X as CloseIcon } from 'lucide-react';
 import { useWorkspace } from '@/context/workspace-context';
 import { PRODUCTS_BY_CATEGORY } from '@/lib/products';
+import type { Product } from '@/lib/types';
 import DeskSelector from './DeskSelector';
 import ChairSelector from './ChairSelector';
 import AccessoryGrid from './AccessoryGrid';
 import PersonaPresets from './PersonaPresets';
 import ResetButton from './ResetButton';
+import ProductInfoModal from './ProductInfoModal';
 import { IconButton } from './ui';
 
 type SectionId = 'presets' | 'desk' | 'chair' | 'accessories';
@@ -41,6 +43,7 @@ export default function ProductPalette({
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [collapsedSections, setCollapsedSections] = useState<Set<SectionId>>(new Set());
+  const [infoProduct, setInfoProduct] = useState<Product | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -78,9 +81,9 @@ export default function ProductPalette({
   function renderSectionContent(id: SectionId) {
     switch (id) {
       case 'presets': return <PersonaPresets />;
-      case 'desk': return <DeskSelector products={filteredDesks} />;
-      case 'chair': return <ChairSelector products={filteredChairs} />;
-      case 'accessories': return <AccessoryGrid products={filteredAccessories} />;
+      case 'desk': return <DeskSelector products={filteredDesks} onView={setInfoProduct} />;
+      case 'chair': return <ChairSelector products={filteredChairs} onView={setInfoProduct} />;
+      case 'accessories': return <AccessoryGrid products={filteredAccessories} onView={setInfoProduct} />;
     }
   }
 
@@ -218,7 +221,7 @@ export default function ProductPalette({
                       )}
                     </button>
                     <div
-                      className={`overflow-hidden transition-all duration-200 ${
+                      className={`overflow-hidden transition-all duration-500 ${
                         isCollapsed ? 'max-h-0' : 'max-h-[1000px]'
                       }`}
                     >
@@ -236,6 +239,10 @@ export default function ProductPalette({
           )}
         </div>
       </div>
+      <ProductInfoModal
+        product={infoProduct}
+        onClose={() => setInfoProduct(null)}
+      />
     </aside>
   );
 }

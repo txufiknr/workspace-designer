@@ -15,9 +15,9 @@ export const PRESETS: Preset[] = [
     description: 'Dual monitors, ergonomic setup',
     icon: '💻',
     config: {
-      desk: 'desk-modern',
+      desk: 'desk-electrical',
       chair: 'chair-ergonomic',
-      accessories: ['monitor-dual', 'lamp-desk', 'plant-snake'],
+      accessories: ['monitor-gaming', 'lamp-led', 'whiteboard-magnetic'],
     },
   },
   {
@@ -26,9 +26,9 @@ export const PRESETS: Preset[] = [
     description: 'Big screen, creative vibe',
     icon: '🎨',
     config: {
-      desk: 'desk-classic',
+      desk: 'desk-mechanical',
       chair: 'chair-ergonomic',
-      accessories: ['monitor-27', 'lamp-floor', 'plant-monstera'],
+      accessories: ['monitor-27', 'lamp-hue', 'whiteboard-standing'],
     },
   },
   {
@@ -37,9 +37,9 @@ export const PRESETS: Preset[] = [
     description: 'Minimal, focused setup',
     icon: '✍️',
     config: {
-      desk: 'desk-classic',
-      chair: 'chair-minimal',
-      accessories: ['lamp-desk'],
+      desk: 'desk-mechanical',
+      chair: 'chair-ergonomic',
+      accessories: ['lamp-led'],
     },
   },
   {
@@ -48,9 +48,9 @@ export const PRESETS: Preset[] = [
     description: 'Big desk, dual monitors',
     icon: '🎮',
     config: {
-      desk: 'desk-modern',
+      desk: 'desk-electrical',
       chair: 'chair-ergonomic',
-      accessories: ['monitor-dual', 'lamp-floor'],
+      accessories: ['monitor-gaming', 'lamp-hue'],
     },
   },
 ];

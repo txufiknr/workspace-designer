@@ -28,7 +28,7 @@ const INITIAL_CONFIG: WorkspaceConfig = {
   accessories: [],
 };
 
-const STORAGE_KEY = 'workspace-designer-config';
+const STORAGE_KEY = 'workspace-designer-config-v2';
 
 function loadSavedConfig(): WorkspaceConfig | null {
   if (typeof window === 'undefined') return null;

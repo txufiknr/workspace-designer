@@ -1,14 +1,20 @@
 'use client';
 
 import { useDraggable } from '@dnd-kit/core';
-import { Trash2 } from 'lucide-react';
+import { Trash2, Eye } from 'lucide-react';
 import { useWorkspace } from '@/context/workspace-context';
 import { PRODUCTS_BY_CATEGORY } from '@/lib/products';
 import type { Product } from '@/lib/types';
-import ProductIcon from './ProductIcon';
-import { Card, IconButton, useToast } from './ui';
+import ProductTile from './ProductTile';
+import { IconButton, useToast } from './ui';
 
-function DraggableAccessoryCard({ item }: { item: Product }) {
+function DraggableAccessoryCard({
+  item,
+  onView,
+}: {
+  item: Product;
+  onView: (product: Product) => void;
+}) {
   const { config, dispatch } = useWorkspace();
   const { toast } = useToast();
   const selected = config.accessories.includes(item.id);
@@ -25,9 +31,11 @@ function DraggableAccessoryCard({ item }: { item: Product }) {
       {...attributes}
       className={`relative ${isDragging ? 'opacity-50' : ''}`}
     >
-      <Card
-        variant={selected ? 'accessory-selected' : 'accessory'}
-        className="h-full"
+      <ProductTile
+        image={item.image}
+        name={item.name}
+        price={item.price}
+        selected={selected}
         onClick={() => {
           dispatch({ type: 'TOGGLE_ACCESSORY', id: item.id });
           toast(
@@ -35,11 +43,7 @@ function DraggableAccessoryCard({ item }: { item: Product }) {
             selected ? 'info' : 'success',
           );
         }}
-      >
-        <ProductIcon image={item.image} name={item.name} />
-        <p className="truncate text-sm font-medium">{item.name}</p>
-        <p className="wd-price-text">${item.price}/mo</p>
-      </Card>
+      />
       {selected && (
         <IconButton
           icon={<Trash2 size={12} />}
@@ -52,14 +56,23 @@ function DraggableAccessoryCard({ item }: { item: Product }) {
           className="absolute right-1 top-1"
         />
       )}
+      <IconButton
+        icon={<Eye size={12} />}
+        label={`View ${item.name} details`}
+        variant="default"
+        onClick={() => onView(item)}
+        className="absolute left-1 top-1"
+      />
     </div>
   );
 }
 
 export default function AccessoryGrid({
   products,
+  onView,
 }: {
   products?: Product[];
+  onView?: (product: Product) => void;
 }) {
   const accessories = products ?? PRODUCTS_BY_CATEGORY.accessory;
 
@@ -67,7 +80,7 @@ export default function AccessoryGrid({
     <section>
       <div className="grid grid-cols-2 gap-2">
         {accessories.map((item) => (
-          <DraggableAccessoryCard key={item.id} item={item} />
+          <DraggableAccessoryCard key={item.id} item={item} onView={onView ?? (() => {})} />
         ))}
       </div>
       {accessories.length === 0 && (

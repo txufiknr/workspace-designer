@@ -1,16 +1,18 @@
 'use client';
 
-import { Trash2 } from 'lucide-react';
+import { Trash2, Eye } from 'lucide-react';
 import { useWorkspace } from '@/context/workspace-context';
 import { PRODUCTS_BY_CATEGORY } from '@/lib/products';
 import type { Product } from '@/lib/types';
-import ProductIcon from './ProductIcon';
-import { Card, IconButton, useToast } from './ui';
+import ProductTile from './ProductTile';
+import { IconButton, useToast } from './ui';
 
 export default function ChairSelector({
   products,
+  onView,
 }: {
   products?: Product[];
+  onView?: (product: Product) => void;
 }) {
   const { config, dispatch } = useWorkspace();
   const { toast } = useToast();
@@ -23,17 +25,17 @@ export default function ChairSelector({
           const selected = config.chair === chair.id;
           return (
             <div key={chair.id} className="relative">
-              <Card
-                variant={selected ? 'selected' : 'default'}
+              <ProductTile
+                image={chair.image}
+                name={chair.name}
+                price={chair.price}
+                selected={selected}
+                aspect="aspect-[16/9]"
                 onClick={() => {
                   dispatch({ type: 'SELECT_CHAIR', id: chair.id });
                   toast(`${chair.name} selected`, 'success');
                 }}
-              >
-                <ProductIcon image={chair.image} name={chair.name} />
-                <p className="font-medium">{chair.name}</p>
-                <p className="wd-price-text">${chair.price}/mo</p>
-              </Card>
+              />
               {selected && (
                 <IconButton
                   icon={<Trash2 size={14} />}
@@ -46,6 +48,13 @@ export default function ChairSelector({
                   className="absolute right-2 top-2"
                 />
               )}
+              <IconButton
+                icon={<Eye size={14} />}
+                label={`View ${chair.name} details`}
+                variant="default"
+                onClick={() => onView?.(chair)}
+                className={`absolute top-2 ${selected ? 'right-10' : 'right-2'}`}
+              />
             </div>
           );
         })}

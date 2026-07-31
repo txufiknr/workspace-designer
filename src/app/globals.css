@@ -65,3 +65,13 @@
     @apply text-sm text-gray-400;
   }
 }
+
+/* Native <dialog> theming */
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+dialog[open] {
+  margin: auto;
+}

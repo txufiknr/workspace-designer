@@ -10,16 +10,20 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import { getProduct } from '@/lib/products';
 import { BACKGROUND_THEMES } from '@/lib/backgrounds';
+import type { Product } from '@/lib/types';
 import { IconButton } from './ui';
+import ProductInfoModal from './ProductInfoModal';
 
 function SortableAccessory({
   id,
   name,
   image,
+  onView,
 }: {
   id: string;
   name: string;
   image: string;
+  onView: () => void;
 }) {
   const { dispatch } = useWorkspace();
   const {
@@ -50,6 +54,7 @@ function SortableAccessory({
         {...listeners}
         {...attributes}
         style={style}
+        onClick={onView}
         className={`group relative flex h-32 w-28 cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border bg-surface/80 p-3 transition-colors ${
           isOver
             ? 'border-mint-500 bg-mint-500/10'
@@ -70,7 +75,10 @@ function SortableAccessory({
           variant="danger"
           shape="circle"
           size="sm"
-          onClick={() => dispatch({ type: 'TOGGLE_ACCESSORY', id })}
+          onClick={(e) => {
+            e.stopPropagation();
+            dispatch({ type: 'TOGGLE_ACCESSORY', id });
+          }}
           className="absolute -right-1.5 -top-1.5 opacity-0 group-hover:opacity-100"
         />
       </div>
@@ -83,6 +91,7 @@ export default function WorkspacePreview() {
   const { setNodeRef: setSectionRef, isOver } = useDroppable({ id: 'preview-drop' });
   const { active } = useDndContext();
   const [themeId, setThemeId] = useState(BACKGROUND_THEMES[0]?.id ?? 'classic');
+  const [infoProduct, setInfoProduct] = useState<Product | null>(null);
 
   const draggingFromSidebar =
     isOver && active != null && String(active.id).startsWith('accessory-');
@@ -99,7 +108,7 @@ export default function WorkspacePreview() {
   return (
     <section
       ref={setSectionRef}
-      className={`relative flex-1 rounded-2xl border p-6 transition-colors ${
+      className={`relative flex-1 rounded-2xl border p-6 transition-colors duration-700 ${
         theme?.gradient ?? ''
       } ${isOver ? 'border-mint-500/70' : 'border-border'}`}
     >
@@ -136,6 +145,7 @@ export default function WorkspacePreview() {
                     id={product.id}
                     name={product.name}
                     image={product.image}
+                    onView={() => setInfoProduct(product)}
                   />
                 ))}
               </SortableContext>
@@ -153,6 +163,7 @@ export default function WorkspacePreview() {
                 layout
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
+                onClick={() => product && setInfoProduct(product)}
                 className="group relative flex w-full max-w-md cursor-pointer flex-col items-center gap-3 rounded-xl border border-mint-500/30 bg-surface p-6"
               >
                 {product && (
@@ -171,7 +182,10 @@ export default function WorkspacePreview() {
                       variant="danger"
                       shape="circle"
                       size="sm"
-                      onClick={() => dispatch({ type: 'DESELECT_DESK' })}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        dispatch({ type: 'DESELECT_DESK' });
+                      }}
                       className="absolute -right-2 -top-2 opacity-0 group-hover:opacity-100"
                     />
                   </>
@@ -195,6 +209,7 @@ export default function WorkspacePreview() {
                 layout
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
+                onClick={() => product && setInfoProduct(product)}
                 className="group relative flex w-40 cursor-pointer flex-col items-center gap-2 rounded-xl border border-mint-500/30 bg-surface p-3"
               >
                 {product && (
@@ -213,7 +228,10 @@ export default function WorkspacePreview() {
                       variant="danger"
                       shape="circle"
                       size="sm"
-                      onClick={() => dispatch({ type: 'DESELECT_CHAIR' })}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        dispatch({ type: 'DESELECT_CHAIR' });
+                      }}
                       className="absolute -right-2 -top-2 opacity-0 group-hover:opacity-100"
                     />
                   </>
@@ -278,6 +296,11 @@ export default function WorkspacePreview() {
           </p>
         </div>
       )}
+
+      <ProductInfoModal
+        product={infoProduct}
+        onClose={() => setInfoProduct(null)}
+      />
     </section>
   );
 }
