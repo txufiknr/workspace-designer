@@ -52,8 +52,8 @@ export const ConfirmDialog = forwardRef<ConfirmDialogHandle, ConfirmDialogProps>
       >
         <form method="dialog" className="space-y-4 p-6">
           <h2 className="text-lg font-semibold">{title}</h2>
-          {description && <p className="text-sm text-gray-400">{description}</p>}
           {children}
+          {description && <p className="text-sm text-gray-400">{description}</p>}
           <div className="flex justify-end gap-3 pt-2">
             <button
               value="cancel"

@@ -9,9 +9,11 @@ import { IconButton } from './ui';
 export default function CartDrawer({
   open,
   onClose,
+  onRented,
 }: {
   open: boolean;
   onClose: () => void;
+  onRented?: (total: number) => void;
 }) {
   return (
     <AnimatePresence>
@@ -47,7 +49,7 @@ export default function CartDrawer({
             </div>
 
             <div className="pt-4">
-              <RentButton />
+              <RentButton onClose={onClose} onRented={onRented} />
             </div>
           </motion.aside>
         </>

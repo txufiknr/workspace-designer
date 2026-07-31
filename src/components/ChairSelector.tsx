@@ -24,7 +24,7 @@ export default function ChairSelector({
         {chairs.map((chair) => {
           const selected = config.chair === chair.id;
           return (
-            <div key={chair.id} className="relative">
+            <div key={chair.id} className="group relative">
               <ProductTile
                 image={chair.image}
                 name={chair.name}
@@ -36,25 +36,28 @@ export default function ChairSelector({
                   toast(`${chair.name} selected`, 'success');
                 }}
               />
-              {selected && (
+              <div className="absolute right-2 top-2 flex items-center gap-1">
                 <IconButton
-                  icon={<Trash2 size={14} />}
-                  label="Remove chair"
-                  variant="default"
-                  onClick={() => {
-                    dispatch({ type: 'DESELECT_CHAIR' });
-                    toast(`${chair.name} removed`, 'info');
-                  }}
-                  className="absolute right-2 top-2"
+                  icon={<Eye size={14} />}
+                  label={`View ${chair.name} details`}
+                  variant="solid"
+                  shape="circle"
+                  onClick={() => onView?.(chair)}
+                  className="opacity-0 transition-opacity duration-150 group-hover:opacity-100 focus-visible:opacity-100"
                 />
-              )}
-              <IconButton
-                icon={<Eye size={14} />}
-                label={`View ${chair.name} details`}
-                variant="default"
-                onClick={() => onView?.(chair)}
-                className={`absolute top-2 ${selected ? 'right-10' : 'right-2'}`}
-              />
+                {selected && (
+                  <IconButton
+                    icon={<Trash2 size={14} />}
+                    label="Remove chair"
+                    variant="danger"
+                    shape="circle"
+                    onClick={() => {
+                      dispatch({ type: 'DESELECT_CHAIR' });
+                      toast(`${chair.name} removed`, 'info');
+                    }}
+                  />
+                )}
+              </div>
             </div>
           );
         })}

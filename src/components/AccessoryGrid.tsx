@@ -29,7 +29,7 @@ function DraggableAccessoryCard({
       ref={setNodeRef}
       {...listeners}
       {...attributes}
-      className={`relative ${isDragging ? 'opacity-50' : ''}`}
+      className={`group relative ${isDragging ? 'opacity-50' : ''}`}
     >
       <ProductTile
         image={item.image}
@@ -44,25 +44,28 @@ function DraggableAccessoryCard({
           );
         }}
       />
-      {selected && (
+      <div className="absolute right-1.5 top-1.5 flex items-center gap-1">
         <IconButton
-          icon={<Trash2 size={12} />}
-          label="Remove accessory"
-          variant="default"
-          onClick={() => {
-            dispatch({ type: 'TOGGLE_ACCESSORY', id: item.id });
-            toast(`${item.name} removed`, 'info');
-          }}
-          className="absolute right-1 top-1"
+          icon={<Eye size={12} />}
+          label={`View ${item.name} details`}
+          variant="solid"
+          shape="circle"
+          onClick={() => onView(item)}
+          className="opacity-0 transition-opacity duration-150 group-hover:opacity-100 focus-visible:opacity-100"
         />
-      )}
-      <IconButton
-        icon={<Eye size={12} />}
-        label={`View ${item.name} details`}
-        variant="default"
-        onClick={() => onView(item)}
-        className="absolute left-1 top-1"
-      />
+        {selected && (
+          <IconButton
+            icon={<Trash2 size={12} />}
+            label="Remove accessory"
+            variant="danger"
+            shape="circle"
+            onClick={() => {
+              dispatch({ type: 'TOGGLE_ACCESSORY', id: item.id });
+              toast(`${item.name} removed`, 'info');
+            }}
+          />
+        )}
+      </div>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
+import { APP_DESCRIPTION, APP_NAME, APP_URL, BRAND_NAME } from '@/lib/constants';
 import './globals.css';
 
 const inter = Inter({
@@ -9,9 +10,24 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Workspace Designer — monis.rent',
-  description:
-    'Design your dream workspace and rent it. Pick a desk, chair, and accessories — see your setup come to life.',
+  title: {
+    default: `${APP_NAME} — ${BRAND_NAME}`,
+    template: `%s — ${APP_NAME}`,
+  },
+  description: APP_DESCRIPTION,
+  metadataBase: new URL(APP_URL),
+  openGraph: {
+    title: APP_NAME,
+    description: APP_DESCRIPTION,
+    url: APP_URL,
+    siteName: `${APP_NAME} — ${BRAND_NAME}`,
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary',
+    title: APP_NAME,
+    description: APP_DESCRIPTION,
+  },
 };
 
 export const viewport: Viewport = {

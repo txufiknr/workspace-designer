@@ -5,12 +5,12 @@ import Image from 'next/image';
 import { Search, ChevronLeft, ChevronRight, ChevronDown, ChevronRight as ChevronRightIcon, X as CloseIcon } from 'lucide-react';
 import { useWorkspace } from '@/context/workspace-context';
 import { PRODUCTS_BY_CATEGORY } from '@/lib/products';
+import { BRAND_NAME } from '@/lib/constants';
 import type { Product } from '@/lib/types';
 import DeskSelector from './DeskSelector';
 import ChairSelector from './ChairSelector';
 import AccessoryGrid from './AccessoryGrid';
 import PersonaPresets from './PersonaPresets';
-import ResetButton from './ResetButton';
 import ProductInfoModal from './ProductInfoModal';
 import { IconButton } from './ui';
 
@@ -109,7 +109,7 @@ export default function ProductPalette({
             ) : (
               <div className="flex w-full items-center justify-between">
                 <h1 className="flex items-center">
-                  <Image src="/monisrent-white.png" alt="Monis Rent" width={120} height={32} className="h-6 w-auto" />
+                  <Image src="/monisrent-white.png" alt={BRAND_NAME} width={120} height={32} className="h-6 w-auto" />
                 </h1>
                 <div className="flex items-center gap-0.5">
                   <IconButton
@@ -194,9 +194,6 @@ export default function ProductPalette({
                   </div>
                 );
               })}
-              <div className="mt-2">
-                <ResetButton collapsed />
-              </div>
             </div>
           ) : (
               <div
@@ -232,13 +229,11 @@ export default function ProductPalette({
                   </div>
                 );
               })}
-              <div className="mt-3">
-                <ResetButton />
-              </div>
             </div>
           )}
         </div>
       </div>
+
       <ProductInfoModal
         product={infoProduct}
         onClose={() => setInfoProduct(null)}

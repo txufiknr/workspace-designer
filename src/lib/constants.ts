@@ -1,3 +1,9 @@
+export const APP_NAME = 'Workspace Designer';
+export const APP_DESCRIPTION =
+  'Design your dream workspace and rent it. Pick a desk, chair, and accessories — see your setup come to life.';
+export const APP_URL = 'https://monis.rent';
+export const BRAND_NAME = 'Monis Rent';
+
 export const RENTAL_PERIODS = ['daily', 'weekly', 'monthly'] as const;
 export type RentalPeriod = (typeof RENTAL_PERIODS)[number];
 

@@ -24,7 +24,7 @@ export default function DeskSelector({
         {desks.map((desk) => {
           const selected = config.desk === desk.id;
           return (
-            <div key={desk.id} className="relative">
+            <div key={desk.id} className="group relative">
               <ProductTile
                 image={desk.image}
                 name={desk.name}
@@ -36,25 +36,28 @@ export default function DeskSelector({
                   toast(`${desk.name} selected`, 'success');
                 }}
               />
-              {selected && (
+              <div className="absolute right-2 top-2 flex items-center gap-1">
                 <IconButton
-                  icon={<Trash2 size={14} />}
-                  label="Remove desk"
-                  variant="default"
-                  onClick={() => {
-                    dispatch({ type: 'DESELECT_DESK' });
-                    toast(`${desk.name} removed`, 'info');
-                  }}
-                  className="absolute right-2 top-2"
+                  icon={<Eye size={14} />}
+                  label={`View ${desk.name} details`}
+                  variant="solid"
+                  shape="circle"
+                  onClick={() => onView?.(desk)}
+                  className="opacity-0 transition-opacity duration-150 group-hover:opacity-100 focus-visible:opacity-100"
                 />
-              )}
-              <IconButton
-                icon={<Eye size={14} />}
-                label={`View ${desk.name} details`}
-                variant="default"
-                onClick={() => onView?.(desk)}
-                className={`absolute top-2 ${selected ? 'right-10' : 'right-2'}`}
-              />
+                {selected && (
+                  <IconButton
+                    icon={<Trash2 size={14} />}
+                    label="Remove desk"
+                    variant="danger"
+                    shape="circle"
+                    onClick={() => {
+                      dispatch({ type: 'DESELECT_DESK' });
+                      toast(`${desk.name} removed`, 'info');
+                    }}
+                  />
+                )}
+              </div>
             </div>
           );
         })}

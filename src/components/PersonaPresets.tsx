@@ -1,8 +1,11 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
+import { flushSync } from 'react-dom';
+import Image from 'next/image';
 import { useWorkspace } from '@/context/workspace-context';
-import { PRESETS } from '@/lib/presets';
+import { PRESETS, type Preset } from '@/lib/presets';
+import { getProduct } from '@/lib/products';
 import { Card, ConfirmDialog, useToast } from './ui';
 import { useConfirmDialog } from '@/hooks/useConfirmDialog';
 
@@ -10,22 +13,31 @@ export default function PersonaPresets() {
   const { config, dispatch } = useWorkspace();
   const { toast } = useToast();
   const { ref: confirmRef, confirm } = useConfirmDialog();
+  const [pendingPreset, setPendingPreset] = useState<Preset | null>(null);
 
   const hasSelections = !!(config.desk || config.chair || config.accessories.length > 0);
 
   const handleClick = useCallback(
     async (presetId: string) => {
-      if (hasSelections) {
-        const ok = await confirm();
-        if (!ok) return;
-      }
       const preset = PRESETS.find((p) => p.id === presetId);
       if (!preset) return;
+      flushSync(() => setPendingPreset(preset));
+      const ok = await confirm();
+      setPendingPreset(null);
+      if (!ok) return;
       dispatch({ type: 'LOAD_PRESET', config: preset.config, presetId: preset.id });
       toast(`${preset.name} preset loaded`, 'success');
     },
-    [hasSelections, dispatch, toast, confirm],
+    [dispatch, toast, confirm],
   );
+
+  const presetItems = pendingPreset
+    ? [
+        pendingPreset.config.desk,
+        pendingPreset.config.chair,
+        ...pendingPreset.config.accessories,
+      ].filter((id): id is string => id != null)
+    : [];
 
   return (
     <section>
@@ -53,11 +65,44 @@ export default function PersonaPresets() {
 
       <ConfirmDialog
         ref={confirmRef}
-        title="Replace Current Setup?"
-        description="Loading this preset will replace your current selections."
-        confirmText="Replace"
-        variant="destructive"
-      />
+        title={pendingPreset ? `Load ${pendingPreset.name} preset?` : 'Load Preset?'}
+        description={
+          hasSelections
+            ? 'Loading this preset will replace your current selections.'
+            : 'This will set up your workspace with the items below.'
+        }
+        confirmText={hasSelections ? 'Replace' : 'Confirm'}
+        variant={hasSelections ? 'destructive' : 'default'}
+      >
+        {pendingPreset && (
+          <ul className="space-y-1.5">
+            {presetItems.map((id) => {
+              const product = getProduct(id);
+              if (!product) return null;
+              return (
+                <li
+                  key={id}
+                  className="flex items-center gap-2.5 rounded-lg border border-border bg-gray-900/50 px-2.5 py-1.5"
+                >
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    width={40}
+                    height={30}
+                    className="h-8 w-10 shrink-0 rounded object-cover"
+                  />
+                  <span className="min-w-0 flex-1 truncate text-sm text-gray-200">
+                    {product.name}
+                  </span>
+                  <span className="shrink-0 text-sm font-medium text-coral-400">
+                    ${product.price}/mo
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </ConfirmDialog>
     </section>
   );
 }

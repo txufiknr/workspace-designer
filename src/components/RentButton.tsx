@@ -7,13 +7,17 @@ import { DEFAULT_RENTAL_PERIOD, MULTIPLIERS } from '@/lib/constants';
 import { rentWorkspace } from '@/lib/actions';
 import { Button, ConfirmDialog, useToast } from './ui';
 import { useConfirmDialog } from '@/hooks/useConfirmDialog';
-import ConfirmationModal from './ConfirmationModal';
 
-export default function RentButton() {
-  const { config, dispatch } = useWorkspace();
+export default function RentButton({
+  onClose,
+  onRented,
+}: {
+  onClose?: () => void;
+  onRented?: (total: number) => void;
+}) {
+  const { config } = useWorkspace();
   const { toast } = useToast();
   const { ref: confirmRef, confirm } = useConfirmDialog();
-  const [showSuccess, setShowSuccess] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   const selectedIds = [
@@ -35,6 +39,7 @@ export default function RentButton() {
     const ok = await confirm();
     if (!ok) return;
 
+    onClose?.();
     setSubmitted(true);
     try {
       await rentWorkspace({
@@ -44,18 +49,13 @@ export default function RentButton() {
         total,
         period: DEFAULT_RENTAL_PERIOD,
       });
-      setShowSuccess(true);
+      onRented?.(total);
       toast('Workspace submitted successfully!', 'success');
     } catch {
       toast('Failed to submit workspace. Please try again.', 'error');
     } finally {
       setSubmitted(false);
     }
-  }
-
-  function handleCloseSuccess() {
-    setShowSuccess(false);
-    dispatch({ type: 'RESET' });
   }
 
   return (
@@ -68,14 +68,6 @@ export default function RentButton() {
       >
         {submitted ? 'Submitting...' : 'Rent This Setup'}
       </Button>
-
-      <ConfirmationModal
-        config={config}
-        total={total}
-        period={DEFAULT_RENTAL_PERIOD}
-        open={showSuccess}
-        onClose={handleCloseSuccess}
-      />
 
       <ConfirmDialog
         ref={confirmRef}

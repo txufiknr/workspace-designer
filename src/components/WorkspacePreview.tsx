@@ -12,6 +12,7 @@ import { getProduct } from '@/lib/products';
 import { BACKGROUND_THEMES } from '@/lib/backgrounds';
 import type { Product } from '@/lib/types';
 import { IconButton } from './ui';
+import ResetButton from './ResetButton';
 import ProductInfoModal from './ProductInfoModal';
 
 function SortableAccessory({
@@ -296,6 +297,8 @@ export default function WorkspacePreview() {
           </p>
         </div>
       )}
+
+      <ResetButton className="absolute bottom-4 left-4 z-10" />
 
       <ProductInfoModal
         product={infoProduct}

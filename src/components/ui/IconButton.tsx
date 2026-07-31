@@ -5,13 +5,14 @@ import type { ButtonHTMLAttributes, ReactNode } from 'react';
 interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon: ReactNode;
   label: string;
-  variant?: 'default' | 'danger' | 'ghost';
+  variant?: 'default' | 'solid' | 'danger' | 'ghost';
   size?: 'sm' | 'md';
   shape?: 'square' | 'circle';
 }
 
 const variantClasses = {
   default: 'bg-coral-500/20 text-coral-400 hover:bg-coral-500/40',
+  solid: 'border border-gray-700 bg-gray-900 text-gray-200 hover:bg-gray-800 hover:text-white',
   danger: 'bg-coral-500 text-white hover:bg-coral-600 shadow-lg',
   ghost: 'text-gray-500 hover:text-gray-300 hover:bg-surface-hover',
 };

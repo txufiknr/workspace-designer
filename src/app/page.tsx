@@ -21,10 +21,13 @@ import ProductPalette from '@/components/ProductPalette';
 import WorkspacePreview from '@/components/WorkspacePreview';
 import FloatingCart from '@/components/FloatingCart';
 import CartDrawer from '@/components/CartDrawer';
+import ConfirmationModal from '@/components/ConfirmationModal';
+import { DEFAULT_RENTAL_PERIOD } from '@/lib/constants';
 
 function WorkspaceDesigner() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
+  const [rentedTotal, setRentedTotal] = useState<number | null>(null);
   const [activeDrag, setActiveDrag] = useState<Product | null>(null);
   const { config, dispatch } = useWorkspace();
   const { toast } = useToast();
@@ -85,6 +88,15 @@ function WorkspaceDesigner() {
     }
   }
 
+  function handleRented(total: number) {
+    setRentedTotal(total);
+  }
+
+  function handleCloseSuccess() {
+    setRentedTotal(null);
+    dispatch({ type: 'RESET' });
+  }
+
   return (
     <DndContext
       sensors={sensors}
@@ -103,7 +115,14 @@ function WorkspaceDesigner() {
           </Suspense>
         </main>
         <FloatingCart onClick={() => setCartOpen(true)} />
-        <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
+        <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} onRented={handleRented} />
+        <ConfirmationModal
+          config={config}
+          total={rentedTotal ?? 0}
+          period={DEFAULT_RENTAL_PERIOD}
+          open={rentedTotal !== null}
+          onClose={handleCloseSuccess}
+        />
       </div>
 
       <DragOverlay>
