@@ -3,57 +3,73 @@
 import { Trash2, Eye } from 'lucide-react';
 import { useWorkspace } from '@/context/workspace-context';
 import { PRODUCTS_BY_CATEGORY } from '@/lib/products';
-import type { Product } from '@/lib/types';
+import type { Product, ProductCategory } from '@/lib/types';
 import ProductTile from './ProductTile';
 import { IconButton, useToast } from './ui';
 
-export default function DeskSelector({
+type SingleSelectCategory = Extract<ProductCategory, 'desk' | 'chair'>;
+
+export default function CategorySelector({
+  category,
   products,
   onView,
 }: {
+  category: SingleSelectCategory;
   products?: Product[];
   onView?: (product: Product) => void;
 }) {
   const { config, dispatch } = useWorkspace();
   const { toast } = useToast();
-  const desks = products ?? PRODUCTS_BY_CATEGORY.desk;
+  const items = products ?? PRODUCTS_BY_CATEGORY[category];
+  const selectedId = config[category];
+
+  function handleSelect(id: string) {
+    if (category === 'desk') {
+      dispatch({ type: 'SELECT_DESK', id });
+    } else {
+      dispatch({ type: 'SELECT_CHAIR', id });
+    }
+  }
+
+  function handleDeselect() {
+    dispatch({ type: category === 'desk' ? 'DESELECT_DESK' : 'DESELECT_CHAIR' });
+  }
 
   return (
     <section>
       <div className="grid grid-cols-2 gap-2">
-        {desks.map((desk) => {
-          const selected = config.desk === desk.id;
+        {items.map((item) => {
+          const selected = selectedId === item.id;
           return (
-            <div key={desk.id} className="group relative">
+            <div key={item.id} className="group relative">
               <ProductTile
-                image={desk.image}
-                name={desk.name}
-                price={desk.price}
+                image={item.image}
+                name={item.name}
+                price={item.price}
                 selected={selected}
-                aspect="aspect-[16/9]"
                 onClick={() => {
-                  dispatch({ type: 'SELECT_DESK', id: desk.id });
-                  toast(`${desk.name} selected`, 'success');
+                  handleSelect(item.id);
+                  toast(`${item.name} selected`, 'success');
                 }}
               />
               <div className="absolute right-2 top-2 flex items-center gap-1">
                 <IconButton
                   icon={<Eye size={14} />}
-                  label={`View ${desk.name} details`}
+                  label={`View ${item.name} details`}
                   variant="solid"
                   shape="circle"
-                  onClick={() => onView?.(desk)}
+                  onClick={() => onView?.(item)}
                   className="opacity-0 transition-opacity duration-150 group-hover:opacity-100 focus-visible:opacity-100"
                 />
                 {selected && (
                   <IconButton
                     icon={<Trash2 size={14} />}
-                    label="Remove desk"
+                    label={`Remove ${category}`}
                     variant="danger"
                     shape="circle"
                     onClick={() => {
-                      dispatch({ type: 'DESELECT_DESK' });
-                      toast(`${desk.name} removed`, 'info');
+                      handleDeselect();
+                      toast(`${item.name} removed`, 'info');
                     }}
                   />
                 )}
@@ -62,8 +78,10 @@ export default function DeskSelector({
           );
         })}
       </div>
-      {desks.length === 0 && (
-        <p className="py-4 text-center text-sm text-faint">No desks match your search</p>
+      {items.length === 0 && (
+        <p className="py-4 text-center text-sm text-gray-600">
+          No {category}s match your search
+        </p>
       )}
     </section>
   );

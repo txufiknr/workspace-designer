@@ -7,8 +7,7 @@ import { useWorkspace } from '@/context/workspace-context';
 import { PRODUCTS_BY_CATEGORY } from '@/lib/products';
 import { BRAND_NAME } from '@/lib/constants';
 import type { Product } from '@/lib/types';
-import DeskSelector from './DeskSelector';
-import ChairSelector from './ChairSelector';
+import CategorySelector from './CategorySelector';
 import AccessoryGrid from './AccessoryGrid';
 import PersonaPresets from './PersonaPresets';
 import ProductInfoModal from './ProductInfoModal';
@@ -18,7 +17,7 @@ import { IconButton } from './ui';
 type SectionId = 'presets' | 'desk' | 'chair' | 'accessories';
 
 const SECTIONS: { id: SectionId; label: string; icon: string }[] = [
-  { id: 'presets', label: 'Quick Start', icon: '⚡' },
+  { id: 'presets', label: 'Product Bundles', icon: '⚡' },
   { id: 'desk', label: 'Desks', icon: '🖥' },
   { id: 'chair', label: 'Chairs', icon: '💺' },
   { id: 'accessories', label: 'Accessories', icon: '🔌' },
@@ -82,8 +81,8 @@ export default function ProductPalette({
   function renderSectionContent(id: SectionId) {
     switch (id) {
       case 'presets': return <PersonaPresets />;
-      case 'desk': return <DeskSelector products={filteredDesks} onView={setInfoProduct} />;
-      case 'chair': return <ChairSelector products={filteredChairs} onView={setInfoProduct} />;
+      case 'desk': return <CategorySelector category="desk" products={filteredDesks} onView={setInfoProduct} />;
+      case 'chair': return <CategorySelector category="chair" products={filteredChairs} onView={setInfoProduct} />;
       case 'accessories': return <AccessoryGrid products={filteredAccessories} onView={setInfoProduct} />;
     }
   }
@@ -225,7 +224,7 @@ export default function ProductPalette({
                       }`}
                     >
                       <div className="min-h-0 overflow-hidden">
-                        <div className="pb-3">
+                        <div className="px-1 pt-1 pb-3">
                           {renderSectionContent(section.id)}
                         </div>
                       </div>

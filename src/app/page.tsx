@@ -29,6 +29,7 @@ function WorkspaceDesigner() {
   const [cartOpen, setCartOpen] = useState(false);
   const [rentedTotal, setRentedTotal] = useState<number | null>(null);
   const [activeDrag, setActiveDrag] = useState<Product | null>(null);
+  const [dragSize, setDragSize] = useState<{ width: number; height: number } | null>(null);
   const { config, dispatch } = useWorkspace();
   const { toast } = useToast();
 
@@ -46,16 +47,20 @@ function WorkspaceDesigner() {
       productId = config.accessories.find((id) => `preview-${id}` === activeId);
     }
     if (!productId) return;
+    const rect = event.active.rect.current.initial;
+    if (rect) setDragSize({ width: rect.width, height: rect.height });
     setActiveDrag(getProduct(productId) ?? null);
   }
 
   function handleDragCancel() {
     setActiveDrag(null);
+    setDragSize(null);
   }
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
     setActiveDrag(null);
+    setDragSize(null);
     if (!over) return;
 
     const activeId = String(active.id);
@@ -127,7 +132,10 @@ function WorkspaceDesigner() {
 
       <DragOverlay>
         {activeDrag && (
-          <div className="flex flex-col items-center gap-1 rounded-xl border border-mint-500/50 bg-surface p-3 shadow-2xl">
+          <div
+            className="flex flex-col items-center justify-center gap-1 rounded-xl border border-mint-500/50 bg-surface p-3 shadow-2xl"
+            style={dragSize ? { width: dragSize.width, height: dragSize.height } : undefined}
+          >
             <Image
               src={activeDrag.image}
               alt={activeDrag.name}

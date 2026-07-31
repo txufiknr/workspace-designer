@@ -4,38 +4,16 @@ export type Preset = {
   id: string;
   name: string;
   description: string;
-  icon: string;
+  image: string;
   config: WorkspaceConfig;
 };
 
 export const PRESETS: Preset[] = [
   {
-    id: 'developer',
-    name: 'Developer',
-    description: 'Dual monitors, ergonomic setup',
-    icon: '💻',
-    config: {
-      desk: 'desk-electrical',
-      chair: 'chair-ergonomic',
-      accessories: ['monitor-gaming', 'lamp-led', 'whiteboard-magnetic'],
-    },
-  },
-  {
-    id: 'designer',
-    name: 'Designer',
-    description: 'Big screen, creative vibe',
-    icon: '🎨',
-    config: {
-      desk: 'desk-mechanical',
-      chair: 'chair-ergonomic',
-      accessories: ['monitor-27', 'lamp-hue', 'whiteboard-standing'],
-    },
-  },
-  {
-    id: 'writer',
-    name: 'Writer',
-    description: 'Minimal, focused setup',
-    icon: '✍️',
+    id: 'essentials',
+    name: 'The Essentials',
+    description: 'Minimal core essentials for focused work',
+    image: '/bundles/the-essentials.webp',
     config: {
       desk: 'desk-mechanical',
       chair: 'chair-ergonomic',
@@ -43,14 +21,36 @@ export const PRESETS: Preset[] = [
     },
   },
   {
-    id: 'gamer',
-    name: 'Gamer',
-    description: 'Big desk, dual monitors',
-    icon: '🎮',
+    id: 'founders',
+    name: 'Founders Setup',
+    description: 'A complete setup for getting things done',
+    image: '/bundles/the-founders-setup.webp',
     config: {
       desk: 'desk-electrical',
       chair: 'chair-ergonomic',
-      accessories: ['monitor-gaming', 'lamp-hue'],
+      accessories: ['monitor-27', 'lamp-led'],
+    },
+  },
+  {
+    id: 'studio',
+    name: 'Studio Setup',
+    description: 'Big screen, creative vibe',
+    image: '/bundles/the-studio-setup.webp',
+    config: {
+      desk: 'desk-mechanical',
+      chair: 'chair-ergonomic',
+      accessories: ['monitor-27', 'lamp-hue', 'whiteboard-standing'],
+    },
+  },
+  {
+    id: 'trading',
+    name: 'Trading Setup',
+    description: 'Powerful setup for the markets',
+    image: '/bundles/the-trading-setup.webp',
+    config: {
+      desk: 'desk-electrical',
+      chair: 'chair-ergonomic',
+      accessories: ['monitor-gaming', 'lamp-led', 'whiteboard-magnetic'],
     },
   },
 ];

@@ -11,6 +11,7 @@
   --foreground: #18181B;
   --muted: #71717A;
   --faint: #A1A1AA;
+  --primary: #059669;
   color-scheme: light;
 }
 
@@ -23,6 +24,7 @@
   --foreground: #F4F4F5;
   --muted: #A1A1AA;
   --faint: #71717A;
+  --primary: #34D399;
   color-scheme: dark;
 }
 
@@ -63,6 +65,7 @@
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-faint: var(--faint);
+  --color-primary: var(--primary);
 }
 
 /* Branded scrollbars */

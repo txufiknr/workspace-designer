@@ -76,9 +76,9 @@ export default function RentButton({
         variant="default"
       >
         <p className="text-sm text-muted">
-          You are about to rent <strong className="text-foreground">{selectedIds.length} item(s)</strong>{' '}
+          You are about to rent <strong className="text-primary">{selectedIds.length} item(s)</strong>{' '}
           for{' '}
-          <strong className="text-foreground">
+          <strong className="text-primary">
             ${total}/{DEFAULT_RENTAL_PERIOD}
           </strong>
           .

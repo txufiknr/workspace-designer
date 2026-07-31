@@ -26,7 +26,7 @@ export default function PersonaPresets() {
       setPendingPreset(null);
       if (!ok) return;
       dispatch({ type: 'LOAD_PRESET', config: preset.config, presetId: preset.id });
-      toast(`${preset.name} preset loaded`, 'success');
+      toast(`${preset.name} bundle loaded`, 'success');
     },
     [dispatch, toast, confirm],
   );
@@ -45,30 +45,38 @@ export default function PersonaPresets() {
         {PRESETS.map((preset) => {
           const isActive = config.activePreset === preset.id;
           return (
-            <Card
-              key={preset.id}
-              variant={isActive ? 'selected' : 'default'}
-              onClick={() => handleClick(preset.id)}
-              className="flex flex-col items-center gap-1 p-3 text-center"
-            >
-              <span className="text-xl">{preset.icon}</span>
-              <span className="text-sm font-medium text-foreground">
-                {preset.name}
-              </span>
-              <span className="text-xs text-muted text-center line-clamp-2">
-                {preset.description}
-              </span>
-            </Card>
+              <Card
+                key={preset.id}
+                variant={isActive ? 'selected' : 'default'}
+                onClick={() => handleClick(preset.id)}
+                className="overflow-hidden p-0! text-center"
+              >
+                <Image
+                  src={preset.image}
+                  alt={preset.name}
+                  width={200}
+                  height={150}
+                  className="h-20 w-full object-cover"
+                />
+                <div className="flex flex-col items-center gap-1 px-2 pb-2 pt-1.5">
+                  <span className="text-sm font-medium text-foreground">
+                    {preset.name}
+                  </span>
+                  <span className="text-xs text-muted text-center line-clamp-2">
+                    {preset.description}
+                  </span>
+                </div>
+              </Card>
           );
         })}
       </div>
 
       <ConfirmDialog
         ref={confirmRef}
-        title={pendingPreset ? `Load ${pendingPreset.name} preset?` : 'Load Preset?'}
+        title={pendingPreset ? `Load ${pendingPreset.name} bundle?` : 'Load Bundle?'}
         description={
           hasSelections
-            ? 'Loading this preset will replace your current selections.'
+            ? 'Loading this bundle will replace your current selections.'
             : 'This will set up your workspace with the items below.'
         }
         confirmText={hasSelections ? 'Replace' : 'Confirm'}
