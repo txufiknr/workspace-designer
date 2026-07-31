@@ -41,7 +41,7 @@ function SortableAccessory({
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.8 }}
-      className="flex"
+      className="flex h-32"
     >
       <div
         ref={setNodeRef}
@@ -131,7 +131,7 @@ export default function WorkspacePreview() {
                 layout
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="group relative flex w-full max-w-md flex-col items-center gap-3 rounded-xl border border-mint-500/30 bg-surface p-6"
+                className="group relative flex w-full max-w-md cursor-pointer flex-col items-center gap-3 rounded-xl border border-mint-500/30 bg-surface p-6"
               >
                 {product && (
                   <>
@@ -173,7 +173,7 @@ export default function WorkspacePreview() {
                 layout
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="group relative flex w-40 flex-col items-center gap-2 rounded-xl border border-mint-500/30 bg-surface p-3"
+                className="group relative flex w-40 cursor-pointer flex-col items-center gap-2 rounded-xl border border-mint-500/30 bg-surface p-3"
               >
                 {product && (
                   <>

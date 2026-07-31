@@ -65,7 +65,14 @@ function WorkspaceDesigner() {
       if (config.accessories.includes(productId)) {
         toast(`${product?.name ?? 'Item'} is already in your workspace`, 'info');
       } else {
-        dispatch({ type: 'TOGGLE_ACCESSORY', id: productId });
+        let index = config.accessories.length;
+        if (overId.startsWith('preview-')) {
+          const hoveredIndex = config.accessories.findIndex(
+            (id) => `preview-${id}` === overId,
+          );
+          if (hoveredIndex >= 0) index = hoveredIndex;
+        }
+        dispatch({ type: 'ADD_ACCESSORY_AT', id: productId, index });
         toast(`${product?.name ?? 'Item'} added`, 'success');
       }
     } else if (activeId.startsWith('preview-')) {

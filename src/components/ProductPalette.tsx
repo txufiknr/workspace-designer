@@ -195,10 +195,10 @@ export default function ProductPalette({
               </div>
             </div>
           ) : (
-            <div
-              className="p-4"
-            >
-              {SECTIONS.map((section) => {
+              <div
+                className="p-4"
+              >
+                {SECTIONS.filter((section) => section.id !== 'presets' || !query).map((section) => {
                 const isCollapsed = collapsedSections.has(section.id);
                 return (
                   <div key={section.id}>
