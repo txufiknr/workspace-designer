@@ -24,7 +24,7 @@ export default function FloatingCart({
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.8, y: 20 }}
         onClick={onClick}
-        className="fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-mint-500 text-white shadow-xl shadow-mint-500/20 transition-colors hover:bg-mint-600 active:scale-95"
+        className="fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full cursor-pointer bg-mint-500 text-white shadow-xl shadow-mint-500/20 transition-colors hover:bg-mint-600 active:scale-95"
       >
         <ShoppingCart size={22} />
         <span className="absolute -right-1 -top-1">

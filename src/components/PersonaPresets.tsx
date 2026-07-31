@@ -43,7 +43,7 @@ export default function PersonaPresets() {
               <span className="text-sm font-medium text-gray-200">
                 {preset.name}
               </span>
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-gray-500 text-center line-clamp-2">
                 {preset.description}
               </span>
             </Card>

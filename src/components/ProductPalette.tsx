@@ -104,7 +104,7 @@ export default function ProductPalette({
               </div>
             ) : (
               <div className="flex w-full items-center justify-between">
-                <h1 className="text-sm font-bold text-gray-100">
+                <h1 className="text-sm font-bold text-gray-100 whitespace-nowrap">
                   Workspace Designer
                 </h1>
                 <div className="flex items-center gap-0.5">
@@ -196,7 +196,7 @@ export default function ProductPalette({
             </div>
           ) : (
             <div
-              className="space-y-6 p-4"
+              className="p-4"
             >
               {SECTIONS.map((section) => {
                 const isCollapsed = collapsedSections.has(section.id);
@@ -204,10 +204,10 @@ export default function ProductPalette({
                   <div key={section.id}>
                     <button
                       onClick={() => toggleSection(section.id)}
-                      className="mb-3 flex w-full items-center gap-2 text-left"
+                      className="mb-2 flex w-full items-center gap-2 rounded-md p-2.5 text-left hover:bg-surface-hover"
                     >
                       <span className="inline-flex w-5 items-center justify-center text-sm">{section.icon}</span>
-                      <h2 className="wd-section-heading mb-0 flex-1">
+                      <h2 className="wd-section-heading mb-0 flex-1 whitespace-nowrap">
                         {section.label}
                       </h2>
                       {isCollapsed ? (
