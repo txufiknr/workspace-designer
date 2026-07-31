@@ -31,6 +31,7 @@ export default function ResetButton({ collapsed }: { collapsed?: boolean }) {
       variant="ghost"
       onClick={handleReset}
       className="w-full border border-border hover:border-coral-500/30 hover:text-coral-400"
+      icon={<RotateCcw size={16} />}
     >
       Clear All Selections
     </Button>

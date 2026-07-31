@@ -221,12 +221,16 @@ export default function ProductPalette({
                         isCollapsed ? 'max-h-0' : 'max-h-[1000px]'
                       }`}
                     >
-                      {renderSectionContent(section.id)}
+                      <div className="pb-3">
+                        {renderSectionContent(section.id)}
+                      </div>
                     </div>
                   </div>
                 );
               })}
-              <ResetButton />
+              <div className="mt-3">
+                <ResetButton />
+              </div>
             </div>
           )}
         </div>

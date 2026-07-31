@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { WorkspaceProvider } from '@/context/workspace-context';
+import { ToastProvider } from '@/components/ui';
 import ProductPalette from '@/components/ProductPalette';
 import WorkspacePreview from '@/components/WorkspacePreview';
 import FloatingCart from '@/components/FloatingCart';
@@ -18,7 +19,9 @@ function WorkspaceDesigner() {
         onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
       />
       <main className="flex-1 overflow-y-auto p-4 lg:p-6">
-        <WorkspacePreview />
+        <Suspense fallback={null}>
+          <WorkspacePreview />
+        </Suspense>
       </main>
       <FloatingCart onClick={() => setCartOpen(true)} />
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
@@ -28,8 +31,10 @@ function WorkspaceDesigner() {
 
 export default function Home() {
   return (
-    <WorkspaceProvider>
-      <WorkspaceDesigner />
-    </WorkspaceProvider>
+    <ToastProvider>
+      <WorkspaceProvider>
+        <WorkspaceDesigner />
+      </WorkspaceProvider>
+    </ToastProvider>
   );
 }

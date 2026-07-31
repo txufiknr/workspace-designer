@@ -40,6 +40,9 @@ Design your dream workspace and rent it — pick a desk, chair, and accessories,
 # install dependencies
 pnpm install
 
+# lint and typecheck
+pnpm check
+
 # run the dev server
 pnpm dev
 

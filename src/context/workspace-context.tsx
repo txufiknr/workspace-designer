@@ -5,6 +5,7 @@ import {
   useContext,
   useReducer,
   useEffect,
+  useRef,
   type ReactNode,
 } from 'react';
 import type { WorkspaceConfig } from '@/lib/types';
@@ -16,7 +17,8 @@ type Action =
   | { type: 'DESELECT_CHAIR' }
   | { type: 'TOGGLE_ACCESSORY'; id: string }
   | { type: 'RESET' }
-  | { type: 'LOAD_PRESET'; config: WorkspaceConfig; presetId: string };
+  | { type: 'LOAD_PRESET'; config: WorkspaceConfig; presetId: string }
+  | { type: 'HYDRATE'; config: WorkspaceConfig };
 
 const INITIAL_CONFIG: WorkspaceConfig = {
   desk: null,
@@ -26,13 +28,13 @@ const INITIAL_CONFIG: WorkspaceConfig = {
 
 const STORAGE_KEY = 'workspace-designer-config';
 
-function loadSavedConfig(): WorkspaceConfig {
-  if (typeof window === 'undefined') return INITIAL_CONFIG;
+function loadSavedConfig(): WorkspaceConfig | null {
+  if (typeof window === 'undefined') return null;
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
-    return saved ? JSON.parse(saved) : INITIAL_CONFIG;
+    return saved ? (JSON.parse(saved) as WorkspaceConfig) : null;
   } catch {
-    return INITIAL_CONFIG;
+    return null;
   }
 }
 
@@ -62,6 +64,8 @@ function reducer(state: WorkspaceConfig, action: Action): WorkspaceConfig {
     }
     case 'LOAD_PRESET':
       return { ...action.config, activePreset: action.presetId };
+    case 'HYDRATE':
+      return action.config;
     case 'RESET':
       return INITIAL_CONFIG;
     default:
@@ -77,9 +81,22 @@ type WorkspaceContextType = {
 const WorkspaceContext = createContext<WorkspaceContextType | null>(null);
 
 export function WorkspaceProvider({ children }: { children: ReactNode }) {
-  const [config, dispatch] = useReducer(reducer, INITIAL_CONFIG, loadSavedConfig);
+  const [config, dispatch] = useReducer(reducer, INITIAL_CONFIG);
+
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
+    const saved = loadSavedConfig();
+    if (saved) {
+      dispatch({ type: 'HYDRATE', config: saved });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
     } catch { /* storage full or unavailable */ }
